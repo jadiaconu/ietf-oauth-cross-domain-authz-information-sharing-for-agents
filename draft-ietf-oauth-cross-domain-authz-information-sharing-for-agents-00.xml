@@ -30,6 +30,11 @@
                 <email>fbrockne@cisco.com</email>
             </address>
         </author>
+        <author fullname="Nik Kale" surname="Kale">
+            <address>
+                <email>nikkal@cisco.com</email>
+            </address>
+        </author>
         <date year="2025"/>
         <area>Security</area>
         <workgroup>Internet Engineering Task Force</workgroup>
