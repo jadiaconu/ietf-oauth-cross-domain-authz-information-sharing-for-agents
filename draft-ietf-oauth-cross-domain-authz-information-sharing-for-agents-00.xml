@@ -138,6 +138,7 @@
                         <tr>
                             <td>Interoperability Across Domains</td>
                             <td>Partially Met (Granted by the Dynamic Registration, however no common ground between AS)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Flexible Definition of Claims</td>
@@ -157,6 +158,7 @@
                         <tr>
                             <td>Compliance and Auditability</td>
                             <td>Partially Met (Claims are shared, APIs are auditable, but no regulatory standards are defined for the schema)</td>
+                            <td/>
                         </tr>
                     </tbody>
                 </table>
@@ -181,26 +183,32 @@
                         <tr>
                             <td>Dynamic Identity for Agents and MCP Servers</td>
                             <td>Partially Met (SCIM support is limited and with constraints, example for Azure: “Subsequent syncs are triggered every 20-40 minutes”.)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Interoperability Across Domains</td>
                             <td>Partially Met (SCIM is supported and schema is well defined)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Flexible Definition of Claims</td>
                             <td>Met (Defined by the schema)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Dynamic Management of Authorization Information</td>
                             <td>Partially Met (SCIM support is limited and with constraints, example for Azure: “Subsequent syncs are triggered every 20-40 minutes”.)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Security and Privacy</td>
                             <td>Partially Met (A schema is defined but Selective Disclosure not supported)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Compliance and Auditability</td>
                             <td>Partially Met (Claims are shared, APIs are auditable, but no regulatory standards are defined for the schema)</td>
+                            <td/>
                         </tr>
                     </tbody>
                 </table>
@@ -243,10 +251,12 @@
                         <tr>
                             <td>Security and Privacy</td>
                             <td>Partially Met** (A schema is defined but Selective Disclosure not supported)</td>
+                            <td/>
                         </tr>
                         <tr>
                             <td>Compliance and Auditability</td>
                             <td>Partially Met** (Claims are shared, APIs are auditable, but no regulatory standards are defined for the schema)</td>
+                            <td/>
                         </tr>
                     </tbody>
                 </table>
