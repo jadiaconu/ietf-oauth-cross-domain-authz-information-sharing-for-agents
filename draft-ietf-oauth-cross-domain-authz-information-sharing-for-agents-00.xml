@@ -35,7 +35,7 @@
                 <email>nikkal@cisco.com</email>
             </address>
         </author>
-        <date year="2025"/>
+        <date year="2026"/>
         <area>Security</area>
         <workgroup>Internet Engineering Task Force</workgroup>
         <abstract>
@@ -379,7 +379,7 @@ Agent (Client)             AuthZ Server (AS)         Metadata Endpoint
   "type": ["VerifiableCredential", "McpServerCredential"],
   "issuer": "did:web:XYZ.okta.com",
   "jwks_uri": "https://identity-service/XYX/.well-known/jwks.json",
-  "issuanceDate": "2025-11-10T00:00:00Z",
+  "issuanceDate": "2026-11-10T00:00:00Z",
   "credentialSubject": {
     "id": "https://identity_service/mcp-001/oauth/client-metadata.json",
     "name": "MCP-001",
@@ -389,7 +389,7 @@ Agent (Client)             AuthZ Server (AS)         Metadata Endpoint
   },
   "proof": {
     "type": "Ed25519Signature2020",
-    "created": "2025-11-10T00:00:00Z",
+    "created": "2026-11-10T00:00:00Z",
     "proofPurpose": "assertionMethod",
     "verificationMethod": "did:web:identity-service/XYZ#keys-1",
     "jws": "eyJhbGciOiJFZERTQSJ9..xyzsignature"
