@@ -44,12 +44,47 @@
         </abstract>
     </front>
     <middle>
-        <section>
+        <section anchor="introduction">
             <name>Introduction</name>
-            <t>Distributed Multi-Agent Systems contain Agents and MCP Servers distributed across multiple administrative domains.</t>
-            <t>These domains often use different Identity Providers (IdPs) and Authorization Servers (AS), presenting significant challenges for secure, interoperable sharing of authorization information.</t>
+            <t>Distributed Multi-Agent Systems, consisting of Agents and Model Context 
+            Protocol (MCP) Servers, are increasingly deployed across multiple administrative 
+            domains. Each domain typically operates its own Identity Providers (IdPs) and 
+            Authorization Servers (AS), creating a fundamental challenge: how can an agent 
+            from Organization A securely prove its identity and authorization to resources 
+            in Organization B?</t>
+            
+            <t>While OAuth 2.0 and related specifications provide robust authorization 
+            frameworks for human users and pre-registered clients, the emergence of 
+            autonomous agent systems operating across organizational boundaries presents 
+            new challenges that existing mechanisms do not fully address.</t>
+            
+            <t>This challenge is distinct from traditional cross-domain identity federation 
+            for human users. Humans rarely delegate authority through multiple organizational 
+            boundaries. Agents routinely do so--an orchestrator agent in Domain X may invoke a 
+            tool agent in Domain Y, which accesses an MCP server in Domain Z. Existing 
+            authorization mechanisms such as OAuth 2.0 Dynamic Client Registration 
+            <xref target="RFC7591"/> and Token Exchange <xref target="RFC8693"/> assume 
+            single-domain operation or pre-established relationships, and do not address the 
+            dynamic, multi-hop delegation patterns that characterize modern agentic systems.</t>
+            
+            <t>This document analyzes the cross-domain agent authorization problem and 
+            evaluates solution approaches. The proposed solution extends OAuth 2.0 Client-ID 
+            Metadata <xref target="I-D.ietf-oauth-client-id-metadata-document"/> with W3C 
+            Verifiable Credentials <xref target="W3C.VCDM2.0"/> to enable dynamic identity 
+            establishment without pre-registration across domains, cryptographically verifiable 
+            authorization claims that travel with the agent, multi-hop delegation with 
+            monotonic scope narrowing and accountability chains, and selective disclosure 
+            of sensitive authorization attributes.</t>
+            
+            <t>The document is structured as follows: <xref target="definitions"/> defines 
+            key terminology. <xref target="use-cases"/> presents use cases demonstrating 
+            cross-domain scenarios. <xref target="problem-statement"/> presents the problem 
+            statement with an architectural overview. <xref target="threat-model"/> identifies 
+            threats specific to cross-domain authorization sharing. <xref target="requirements"/> 
+            establishes requirements and evaluates solution approaches. 
+            <xref target="security-considerations"/> covers security considerations.</t>
         </section>
-        <section>
+        <section anchor="definitions">
             <name>Abbreviations / Definitions</name>
             <dl>
                 <dt>Agent</dt>
@@ -68,7 +103,119 @@
                 <dd>Scope over which a specific, uniform set of security policies and user management rules are enforced.</dd>
             </dl>
         </section>
-        <section>
+        <section anchor="use-cases">
+            <name>Use Cases</name>
+            <t>The following use cases demonstrate scenarios where cross-domain agent 
+            authorization presents challenges not addressed by existing single-domain 
+            mechanisms.</t>
+            
+            <section>
+                <name>Cross-Domain Tool Invocation</name>
+                <t>A coding assistant agent operated by Developer Tools Inc. needs to 
+                invoke a code review tool provided by Code Analysis Corp. The tool is 
+                exposed as an MCP Server protected by Code Analysis Corp's Authorization 
+                Server.</t>
+                <dl>
+                    <dt>Cross-Domain Challenge</dt>
+                    <dd>Developer Tools Inc.'s agent must present credentials that 
+                    Code Analysis Corp's AS can verify, despite having no pre-existing 
+                    trust relationship. The AS must determine what operations the agent 
+                    may perform based on claims issued by a foreign domain.</dd>
+                    
+                    <dt>Requirements</dt>
+                    <dd>Verifiable agent identity across domain boundaries, authorization 
+                    claims that are interpretable by the receiving domain.</dd>
+                </dl>
+            </section>
+            
+            <section>
+                <name>Enterprise Partnership Integration</name>
+                <t>Company A partners with Company B to provide integrated services. 
+                Company A deploys a support agent that needs to access Company B's 
+                customer ticketing system and knowledge base to resolve customer issues.</t>
+                <dl>
+                    <dt>Cross-Domain Challenge</dt>
+                    <dd>Company A's agent authenticates using Company A's IdP and holds 
+                    a Verifiable Credential issued by Company A. Company B's Authorization 
+                    Server has no trust relationship with Company A's IdP--it cannot verify 
+                    Company A's tokens. Company B needs a mechanism to verify the agent's 
+                    identity and authorization claims without requiring bilateral federation 
+                    setup for every partner.</dd>
+                    
+                    <dt>Requirements</dt>
+                    <dd>Dynamic identity verification across domains, verifiable compliance 
+                    attestations, and scope restrictions that Company B's AS can enforce 
+                    based on Company A's authorization grants.</dd>
+                </dl>
+            </section>
+            
+            <section>
+                <name>Multi-Vendor Workflow Orchestration</name>
+                <t>A security operations workflow involves agents from multiple vendors: 
+                an orchestrator agent from Security Vendor X coordinates a threat 
+                intelligence agent from Vendor Y and a remediation agent from Vendor Z. 
+                The orchestrator must delegate appropriate permissions to each specialized 
+                agent.</t>
+                <dl>
+                    <dt>Cross-Domain Challenge</dt>
+                    <dd>The orchestrator in Domain X must delegate authority to agents 
+                    in Domains Y and Z. Each receiving domain must verify the delegation 
+                    chain, ensure the delegated scope does not exceed what the originating 
+                    principal authorized, and maintain an auditable record of the 
+                    delegation chain.</dd>
+                    
+                    <dt>Requirements</dt>
+                    <dd>Multi-hop delegation with scope narrowing, cross-domain 
+                    accountability chains, and domain-specific policy enforcement at 
+                    each trust boundary crossing.</dd>
+                </dl>
+            </section>
+            
+            <section>
+                <name>Supply Chain Data Exchange</name>
+                <t>A manufacturer's inventory management agent needs to query suppliers' 
+                availability systems. Multiple suppliers operate their own authorization 
+                infrastructure. The agent must access each supplier's MCP servers with 
+                appropriate credentials.</t>
+                <dl>
+                    <dt>Cross-Domain Challenge</dt>
+                    <dd>Each supplier's AS must verify the manufacturer's agent without 
+                    requiring manual pre-registration. Dynamic Client Registration 
+                    <xref target="RFC7591"/> would require the agent to register separately 
+                    with each supplier's AS, creating operational overhead and not providing 
+                    cryptographic verification of the agent's authorization claims from its 
+                    home domain. The agent may need different permission levels at different 
+                    suppliers based on partnership agreements. Suppliers must be able to 
+                    audit which manufacturer agents accessed their data.</dd>
+                    
+                    <dt>Requirements</dt>
+                    <dd>Dynamic agent provisioning across multiple foreign domains, 
+                    verifiable identity without pre-registration, and domain-specific 
+                    scope mappings.</dd>
+                </dl>
+            </section>
+            
+            <section>
+                <name>Regulatory Compliance Across Jurisdictions</name>
+                <t>A financial services agent operating in the EU needs to access data 
+                from a partner institution in the US. Both jurisdictions have different 
+                regulatory requirements.</t>
+                <dl>
+                    <dt>Cross-Domain Challenge</dt>
+                    <dd>The receiving domain's AS must verify that the requesting agent's 
+                    compliance attestations meet local policy requirements. The VC issued 
+                    by the originating domain asserts compliance with GDPR; the receiving 
+                    domain must determine whether this satisfies its own data handling 
+                    requirements without assuming equivalence of compliance frameworks.</dd>
+                    
+                    <dt>Requirements</dt>
+                    <dd>Verifiable compliance attestations that receiving domains can 
+                    evaluate against local policies, and data sensitivity clearance 
+                    verification across regulatory boundaries.</dd>
+                </dl>
+            </section>
+        </section>
+        <section anchor="problem-statement">
             <name>Problem Statement</name>
             <figure>
                 <name>Cross-Domain Multi-Agent Architecture</name>
@@ -210,22 +357,7 @@
                 </section>
             </section>
         </section>
-        <section>
-            <name>Use Cases</name>
-            <section>
-                <name>Predictive Threat Detection</name>
-                <t><strong>Description:</strong> Enhance security by predicting threats based on behavior analysis.</t>
-                <t><strong>Use Case:</strong> An organization uses behavior analysis systems to analyze agent behavior patterns. Client-ID Metadata provides a framework for registering agents, while W3C VCs ensure identity verification and provide additional context for the intended tasks of a specific agent (Ex: may access production logs but not PII).</t>
-                <t>The system predicts potential security breaches by assessing deviations in agent behavior and recommends preventive actions, aligning with Zero Trust strategies.</t>
-            </section>
-            <section>
-                <name>Automated Compliance Monitoring</name>
-                <t><strong>Description:</strong> Automate compliance checks across distributed systems.</t>
-                <t><strong>Use Case:</strong> A financial institution monitors compliance with regulatory requirements. Agents registered through Client-ID Metadata are verified for compliance based on their provided proofs as W3C VCs (Ex: this agent uses this model approved by policy X).</t>
-                <t>The system automatically evaluates compliance status based on provided VCs and generates alerts for any discrepancies, ensuring adherence to Zero Trust policies.</t>
-            </section>
-        </section>
-        <section>
+        <section anchor="requirements">
             <name>Requirements</name>
             <t>A system for cross-domain sharing of authorization information of agents needs to meet the following set of requirements:</t>
             <ul>
