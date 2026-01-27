@@ -78,9 +78,8 @@
             
             <t>The document is structured as follows: <xref target="definitions"/> defines 
             key terminology. <xref target="use-cases"/> presents use cases demonstrating 
-            cross-domain scenarios. <xref target="problem-statement"/> presents the problem 
-            statement with an architectural overview. <xref target="threat-model"/> identifies 
-            threats specific to cross-domain authorization sharing. <xref target="requirements"/> 
+            cross-domain scenarios. <xref target="threat-model"/> identifies 
+            threats specific to cross-domain authorization sharing. <xref target="requirements-summary"/> 
             establishes requirements and evaluates solution approaches. 
             <xref target="security-considerations"/> covers security considerations.</t>
         </section>
@@ -215,150 +214,8 @@
                 </dl>
             </section>
         </section>
-        <section anchor="problem-statement">
-            <name>Problem Statement</name>
-            <figure>
-                <name>Cross-Domain Multi-Agent Architecture</name>
-                <artwork type="ascii-art"><![CDATA[
-       Domain A (Organization A)           Domain B (Organization B)
-   +-----------------------------+     +-----------------------------+
-   |                             |     |                             |
-   |      +-------+              |     |              +-------+      |
-   |      | Agent |              |---->|              |  MCP  |      |
-   |      |       |              |     |              | Server|      |
-   |      +---+---+              |     |              +---+---+      |
-   |          |                  |     |                  ^          |
-   |          | Host/Publish     |     |                  | Protects |
-   |          v                  |     |                  |          |
-   |  +-------+-------+          |     |          +-------+-------+  |
-   |  |   Client-ID   |          |     |          | Authorization |  |
-   |  |   Metadata    |          |     |          |    Server     |  |
-   |  | (contains VC) |          |     |          |      (AS)     |  |
-   |  +---------------+          |     |          +---------------+  |
-   |                             |     |                             |
-   +-----------------------------+     +-----------------------------+
-]]></artwork>
-            </figure>
-            <t>Distributed Multi-Agent Systems contain Agents and MCP Servers that are distributed across multiple administrative domains. These systems involve different Identity Providers (IdPs) / Authorization Servers (AS) posing challenges in authorization information sharing across these entities.</t>
-        </section>
-        <section anchor="threat-model" numbered="true" toc="default">
-            <name>Threat Model for Cross-Domain Authorization Sharing</name>
-            <t>This section defines threats specific to sharing authorization information 
-            across administrative domain boundaries. General OAuth and VC security threats 
-            are addressed in <xref target="RFC6819"/> and <xref target="W3C.VCDM2.0"/>; 
-            this section focuses on threats that emerge or are amplified when credentials 
-            cross domain boundaries.</t>
-            <section anchor="protected-assets" numbered="true" toc="default">
-                <name>Protected Assets in Cross-Domain Scenarios</name>
-                <t>Beyond standard authorization assets, cross-domain sharing introduces 
-                additional assets requiring protection:</t>
-                <dl>
-                    <dt>Cross-Domain Trust Relationships</dt>
-                    <dd>The established trust between domains that enables agents to operate 
-                    across organizational boundaries. Compromise affects all agents relying 
-                    on that trust relationship.</dd>
-                    <dt>Shared Authorization Semantics</dt>
-                    <dd>The agreed-upon meaning of claims, scopes, and compliance attestations 
-                    between domains. Semantic drift or manipulation can cause authorization 
-                    decisions that violate one or both domains' policies.</dd>
-                    <dt>Delegation Chains Spanning Domains</dt>
-                    <dd>When agent A in Domain X delegates to agent B in Domain Y, the chain 
-                    itself becomes an asset requiring integrity protection across trust 
-                    boundaries.</dd>
-                </dl>
-            </section>
-            <section anchor="threat-actors" numbered="true" toc="default">
-                <name>Cross-Domain Specific Threat Actors</name>
-                <dl>
-                    <dt>Rogue Domain</dt>
-                    <dd>An entire domain that participates in the trust federation but issues 
-                    fraudulent VCs or makes incorrect authorization decisions—either through 
-                    compromise or malicious operation. Unlike a single rogue IdP, a rogue 
-                    domain may control IdP, AS, and metadata endpoints coherently.</dd>
-                    <dt>Cross-Domain Insider</dt>
-                    <dd>An administrator with legitimate access in Domain A who abuses 
-                    cross-domain trust relationships to gain unauthorized access to Domain B's 
-                    resources.</dd>
-                </dl>
-            </section>
-            <section anchor="attack-categories" numbered="true" toc="default">
-                <name>Cross-Domain Attack Categories</name>
-                <section anchor="trust-anchor-attacks" numbered="true" toc="default">
-                    <name>Trust Anchor Attacks</name>
-                    <dl>
-                        <dt>Metadata Endpoint Compromise</dt>
-                        <dd><t>An attacker gains control of the URL hosting an agent's client-id 
-                        metadata document and substitutes malicious metadata or VCs. Because the 
-                        metadata URL is the trust anchor for cross-domain identity, compromise 
-                        enables complete identity takeover across all trusting domains.</t>
-                        <t>Cross-domain amplification: In single-domain scenarios, the AS 
-                        typically has out-of-band trust with clients. In cross-domain scenarios, 
-                        the metadata endpoint IS the sole trust anchor—there's no fallback.</t></dd>
-                        <dt>Metadata Poisoning</dt>
-                        <dd><t>Injection of false claims into legitimate metadata documents 
-                        through supply chain attacks, DNS hijacking, or exploitation of hosting 
-                        infrastructure.</t>
-                        <t>Cross-domain amplification: Poisoned metadata propagates trust 
-                        violations to all domains that fetch and cache the metadata.</t></dd>
-                    </dl>
-                </section>
-                <section anchor="semantic-attacks" numbered="true" toc="default">
-                    <name>Semantic Attacks</name>
-                    <dl>
-                        <dt>Policy Skew Exploitation</dt>
-                        <dd>An agent authorized under Domain A's policies operates in Domain B 
-                        where different security policies apply. The agent performs actions that 
-                        are within Domain A's authorized scope but violate Domain B's policies.</dd>
-                        <dt>Claim Semantic Drift</dt>
-                        <dd>Domains interpret the same claim differently, leading to authorization 
-                        decisions that neither domain intended.</dd>
-                        <dt>Compliance Attestation Mismatch</dt>
-                        <dd>Compliance attestations (SOC2, ISO-27001, GDPR) in VCs are accepted 
-                        at face value without verifying that the issuing domain's certification 
-                        scope covers the receiving domain's requirements.</dd>
-                    </dl>
-                </section>
-                <section anchor="delegation-attacks" numbered="true" toc="default">
-                    <name>Delegation Attacks Across Domains</name>
-                    <dl>
-                        <dt>Cross-Domain Privilege Amplification</dt>
-                        <dd>In multi-hop delegation (A to B to C) where agents belong to different 
-                        domains, downstream agents in permissive domains accumulate effective 
-                        permissions that exceed what the originating principal intended.</dd>
-                        <dt>Accountability Chain Breakage</dt>
-                        <dd>Delegation chains that cross domain boundaries lose forensic 
-                        continuity. When incidents occur, attribution cannot be reconstructed 
-                        because each domain only has partial visibility.</dd>
-                        <dt>Confused Deputy Across Trust Boundaries</dt>
-                        <dd>An attacker in Domain A tricks a trusted agent in Domain B into 
-                        performing actions on their behalf that the attacker couldn't perform 
-                        directly—exploiting the cross-domain trust relationship. 
-                        See <xref target="Hardy1988"/>.</dd>
-                    </dl>
-                </section>
-                <section anchor="lateral-movement" numbered="true" toc="default">
-                    <name>Cross-Domain Lateral Movement</name>
-                    <t>Using legitimate cross-domain authorization to pivot from a compromised 
-                    position in Domain A to resources in Domain B that would not otherwise be 
-                    accessible. An attacker compromises a low-privilege agent in Domain A. 
-                    That agent has cross-domain authorization to Domain B. The attacker uses 
-                    the agent's credentials to establish a foothold in Domain B, then escalates 
-                    within Domain B.</t>
-                </section>
-                <section anchor="correlation-attacks" numbered="true" toc="default">
-                    <name>Correlation and Privacy Attacks</name>
-                    <t>Linking agent activities across domains using stable identifiers in VCs 
-                    to build profiles of organizational operations, potentially revealing 
-                    sensitive business processes or security postures.</t>
-                    <t>Cross-domain amplification: In single-domain scenarios, the domain 
-                    controls what's logged. In cross-domain scenarios, each domain receiving 
-                    the VC can correlate independently, and the agent's home domain cannot 
-                    prevent this.</t>
-                </section>
-            </section>
-        </section>
-        <section anchor="requirements">
-            <name>Requirements</name>
+        <section anchor="requirements-summary">
+            <name>Requirements Summary</name>
             <t>A system for cross-domain sharing of authorization information of agents needs to meet the following set of requirements:</t>
             <ul>
                 <li><strong>Dynamic Identity for Agents and MCP Servers:</strong> The Agents and MCP Servers can onboard dynamically and get an assigned identity in the IdP.</li>
@@ -368,6 +225,9 @@
                 <li><strong>Security and Privacy:</strong> Ensuring secure and private sharing of authorization information across domains.</li>
                 <li><strong>Compliance and Auditability:</strong> Support for compliance with regulatory standards and auditability of authorization exchanges.</li>
             </ul>
+        </section>
+        <section anchor="solution-approaches">
+            <name>Solution Approaches</name>
             <section>
                 <name>Solution Approach 1: Dynamic Client Registration (RFC 7591)</name>
                 <t><strong>Description:</strong> Dynamic Client Registration as outlined in <xref target="RFC7591"/> allows clients to register with an AS dynamically, facilitating the management of client credentials and metadata.</t>
@@ -926,181 +786,311 @@ Effective_Scope(B) = A.delegatable_scope
                 </section>
             </section>
         </section>
-        <section>
-            <name>Example using Outshift Identity Service + Okta (IdP)</name>
+        <section anchor="example" numbered="true" toc="default">
+            <name>Example</name>
+            <t>This section provides illustrative examples of how Client-ID Metadata can be extended with Verifiable Credentials for agent identity. These examples demonstrate the recommended Approach 4 and show how the concepts apply to scenarios similar to the travel booking use case described earlier. These examples are non-normative and intended to demonstrate the concepts discussed in this document.</t>
             <section>
-                <name>Metadata example</name>
+                <name>Client-ID Metadata Example</name>
+                <t>The following example shows OAuth client metadata that includes a Verifiable Credential in the "vc+jwt" field:</t>
                 <sourcecode name="metadata-example.json" type="json"><![CDATA[
 {
-  "client_id": "https://identity_service/mcp-001/oauth/client-metadata.json",
-  "client_name": "Example CIMD Client",
-  "jwks_uri": "https://identity-service/XYZ/.well-known/jwks.json",
+  "client_id": "https://agents.example.com/agent-001/metadata.json",
+  "client_name": "Customer Service Agent 001",
+  "jwks_uri": "https://agents.example.com/agent-001/jwks.json",
   "token_endpoint_auth_method": "private_key_jwt",
-  "vc+jwt": "{VC with JOSE envelope}"
+  "grant_types": ["client_credentials"],
+  "scope": "read:orders write:tickets",
+  "vc+jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJAY29udGV4dCI6W..."
 }
 ]]></sourcecode>
+                <t>The "vc+jwt" field contains a JWT-encoded Verifiable Credential. The actual JWT would be significantly longer and contain the complete credential structure shown in the next subsection.</t>
             </section>
             <section>
-                <name>VC example</name>
+                <name>Verifiable Credential Example</name>
+                <t>The following example shows the decoded structure of a Verifiable Credential for an agent (before JWT encoding):</t>
                 <sourcecode name="vc-example.json" type="json"><![CDATA[
 {
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://example.org/mcp-server/schema/v1"
+    "https://example.org/agent-credentials/v1"
   ],
-  "type": ["VerifiableCredential", "McpServerCredential"],
-  "issuer": "did:web:XYZ.okta.com",
-  "jwks_uri": "https://identity-service/XYX/.well-known/jwks.json",
-  "issuanceDate": "2026-11-10T00:00:00Z",
+  "type": ["VerifiableCredential", "AgentIdentityCredential"],
+  "issuer": "did:web:issuer.example.com",
+  "issuanceDate": "2025-01-15T10:30:00Z",
+  "expirationDate": "2026-01-15T10:30:00Z",
   "credentialSubject": {
-    "id": "https://identity_service/mcp-001/oauth/client-metadata.json",
-    "name": "MCP-001",
-    "version": "3.2.1",
-    "compliance": ["ISO-27001", "GDPR"],
-    "trustScore": 0.94
+    "id": "https://agents.example.com/agent-001/metadata.json",
+    "agentName": "Customer Service Agent 001",
+    "agentVersion": "2.1.0",
+    "agentType": "customer-service",
+    "owner": "did:web:example.com",
+    "authorizedCapabilities": [
+      "order-lookup",
+      "ticket-creation",
+      "customer-notification"
+    ],
+    "complianceFrameworks": ["SOC2-TypeII", "ISO-27001"],
+    "delegationLevel": 1,
+    "maxDelegationDepth": 2
   },
-  "proof": {
-    "type": "Ed25519Signature2020",
-    "created": "2026-11-10T00:00:00Z",
-    "proofPurpose": "assertionMethod",
-    "verificationMethod": "did:web:identity-service/XYZ#keys-1",
-    "jws": "eyJhbGciOiJFZERTQSJ9..xyzsignature"
+  "credentialStatus": {
+    "id": "https://issuer.example.com/status/2024/12345",
+    "type": "StatusList2021Entry",
+    "statusPurpose": "revocation",
+    "statusListIndex": "12345",
+    "statusListCredential": "https://issuer.example.com/status/2024"
   }
 }
 ]]></sourcecode>
+                <t>Note: The actual credential would include a "proof" section with cryptographic signatures. The proof section is omitted here for clarity, as it would add significant length to the example. The proof structure varies depending on the signature suite used (e.g., Ed25519Signature2020, JsonWebSignature2020).</t>
             </section>
         </section>
         <section anchor="IANA">
             <name>IANA Considerations</name>
-            <t>This memo includes no request to IANA.</t>
+            <section anchor="security-considerations" numbered="true" toc="default">
+                <name>Security Considerations</name>
+                <t>This section addresses security considerations specific to cross-domain 
+                authorization information sharing. Implementations MUST also follow security 
+                guidance in <xref target="RFC6819"/>, <xref target="W3C.VCDM2.0"/>, and 
+                <xref target="I-D.ietf-oauth-client-id-metadata-document"/>.</t>
+                <section anchor="threat-model" numbered="true" toc="default">
+                <name>Threat Model for Cross-Domain Authorization Sharing</name>
+                <t>This section defines threats specific to sharing authorization information 
+                across administrative domain boundaries. General OAuth and VC security threats 
+                are addressed in <xref target="RFC6819"/> and <xref target="W3C.VCDM2.0"/>; 
+                this section focuses on threats that emerge or are amplified when credentials 
+                cross domain boundaries.</t>
+                <section anchor="protected-assets" numbered="true" toc="default">
+                    <name>Protected Assets in Cross-Domain Scenarios</name>
+                    <t>Beyond standard authorization assets, cross-domain sharing introduces 
+                    additional assets requiring protection:</t>
+                    <dl>
+                        <dt>Cross-Domain Trust Relationships</dt>
+                        <dd>The established trust between domains that enables agents to operate 
+                        across organizational boundaries. Compromise affects all agents relying 
+                        on that trust relationship.</dd>
+                        <dt>Shared Authorization Semantics</dt>
+                        <dd>The agreed-upon meaning of claims, scopes, and compliance attestations 
+                        between domains. Semantic drift or manipulation can cause authorization 
+                        decisions that violate one or both domains' policies.</dd>
+                        <dt>Delegation Chains Spanning Domains</dt>
+                        <dd>When agent A in Domain X delegates to agent B in Domain Y, the chain 
+                        itself becomes an asset requiring integrity protection across trust 
+                        boundaries.</dd>
+                    </dl>
+                </section>
+                <section anchor="threat-actors" numbered="true" toc="default">
+                    <name>Cross-Domain Specific Threat Actors</name>
+                    <dl>
+                        <dt>Rogue Domain</dt>
+                        <dd>An entire domain that participates in the trust federation but issues 
+                        fraudulent VCs or makes incorrect authorization decisions—either through 
+                        compromise or malicious operation. Unlike a single rogue IdP, a rogue 
+                        domain may control IdP, AS, and metadata endpoints coherently.</dd>
+                        <dt>Cross-Domain Insider</dt>
+                        <dd>An administrator with legitimate access in Domain A who abuses 
+                        cross-domain trust relationships to gain unauthorized access to Domain B's 
+                        resources.</dd>
+                    </dl>
+                </section>
+                <section anchor="attack-categories" numbered="true" toc="default">
+                    <name>Cross-Domain Attack Categories</name>
+                    <section anchor="trust-anchor-attacks" numbered="true" toc="default">
+                        <name>Trust Anchor Attacks</name>
+                        <dl>
+                            <dt>Metadata Endpoint Compromise</dt>
+                            <dd><t>An attacker gains control of the URL hosting an agent's client-id 
+                            metadata document and substitutes malicious metadata or VCs. Because the 
+                            metadata URL is the trust anchor for cross-domain identity, compromise 
+                            enables complete identity takeover across all trusting domains.</t>
+                            <t>Cross-domain amplification: In single-domain scenarios, the AS 
+                            typically has out-of-band trust with clients. In cross-domain scenarios, 
+                            the metadata endpoint IS the sole trust anchor—there's no fallback.</t></dd>
+                            <dt>Metadata Poisoning</dt>
+                            <dd><t>Injection of false claims into legitimate metadata documents 
+                            through supply chain attacks, DNS hijacking, or exploitation of hosting 
+                            infrastructure.</t>
+                            <t>Cross-domain amplification: Poisoned metadata propagates trust 
+                            violations to all domains that fetch and cache the metadata.</t></dd>
+                        </dl>
+                    </section>
+                    <section anchor="semantic-attacks" numbered="true" toc="default">
+                        <name>Semantic Attacks</name>
+                        <dl>
+                            <dt>Policy Skew Exploitation</dt>
+                            <dd>An agent authorized under Domain A's policies operates in Domain B 
+                            where different security policies apply. The agent performs actions that 
+                            are within Domain A's authorized scope but violate Domain B's policies.</dd>
+                            <dt>Claim Semantic Drift</dt>
+                            <dd>Domains interpret the same claim differently, leading to authorization 
+                            decisions that neither domain intended.</dd>
+                            <dt>Compliance Attestation Mismatch</dt>
+                            <dd>Compliance attestations (SOC2, ISO-27001, GDPR) in VCs are accepted 
+                            at face value without verifying that the issuing domain's certification 
+                            scope covers the receiving domain's requirements.</dd>
+                        </dl>
+                    </section>
+                    <section anchor="delegation-attacks" numbered="true" toc="default">
+                        <name>Delegation Attacks Across Domains</name>
+                        <dl>
+                            <dt>Cross-Domain Privilege Amplification</dt>
+                            <dd>In multi-hop delegation (A to B to C) where agents belong to different 
+                            domains, downstream agents in permissive domains accumulate effective 
+                            permissions that exceed what the originating principal intended.</dd>
+                            <dt>Accountability Chain Breakage</dt>
+                            <dd>Delegation chains that cross domain boundaries lose forensic 
+                            continuity. When incidents occur, attribution cannot be reconstructed 
+                            because each domain only has partial visibility.</dd>
+                            <dt>Confused Deputy Across Trust Boundaries</dt>
+                            <dd>An attacker in Domain A tricks a trusted agent in Domain B into 
+                            performing actions on their behalf that the attacker couldn't perform 
+                            directly—exploiting the cross-domain trust relationship. 
+                            See <xref target="Hardy1988"/>.</dd>
+                        </dl>
+                    </section>
+                    <section anchor="lateral-movement" numbered="true" toc="default">
+                        <name>Cross-Domain Lateral Movement</name>
+                        <t>Using legitimate cross-domain authorization to pivot from a compromised 
+                        position in Domain A to resources in Domain B that would not otherwise be 
+                        accessible. An attacker compromises a low-privilege agent in Domain A. 
+                        That agent has cross-domain authorization to Domain B. The attacker uses 
+                        the agent's credentials to establish a foothold in Domain B, then escalates 
+                        within Domain B.</t>
+                    </section>
+                    <section anchor="correlation-attacks" numbered="true" toc="default">
+                        <name>Correlation and Privacy Attacks</name>
+                        <t>Linking agent activities across domains using stable identifiers in VCs 
+                        to build profiles of organizational operations, potentially revealing 
+                        sensitive business processes or security postures.</t>
+                        <t>Cross-domain amplification: In single-domain scenarios, the domain 
+                        controls what's logged. In cross-domain scenarios, each domain receiving 
+                        the VC can correlate independently, and the agent's home domain cannot 
+                        prevent this.</t>
+                    </section>
+                </section>
+                <section anchor="trust-establishment" numbered="true" toc="default">
+                    <name>Trust Establishment Between Domains</name>
+                    <section anchor="domain-trust-lists" numbered="true" toc="default">
+                        <name>Domain Trust Lists</name>
+                        <t>Before accepting VCs from another domain, an Authorization Server 
+                        MUST verify that the issuing domain is in an explicitly configured trust 
+                        list. Implementations MUST NOT implicitly trust domains based solely on 
+                        successful cryptographic verification of the VC.</t>
+                        <t>Trust list entries SHOULD include:</t>
+                        <ul>
+                            <li>Domain identifier (issuerDomain claim value)</li>
+                            <li>Accepted VC types from that domain</li>
+                            <li>Scope of trust (which local resources may be accessed)</li>
+                            <li>Expiration or review date for the trust relationship</li>
+                        </ul>
+                    </section>
+                    <section anchor="policy-mapping" numbered="true" toc="default">
+                        <name>Cross-Domain Policy Mapping</name>
+                        <t>Implementations MUST NOT assume semantic equivalence of claims across 
+                        domains. Before accepting a VC from another domain, the AS SHOULD 
+                        verify:</t>
+                        <ol>
+                            <li>Explicit mapping exists between the foreign domain's claim 
+                            semantics and local policy requirements</li>
+                            <li>Compliance attestations in the VC meet local regulatory 
+                            requirements (not just the issuing domain's)</li>
+                            <li>Scope values have been mapped to local authorization semantics</li>
+                        </ol>
+                    </section>
+                    <section anchor="trust-lifecycle" numbered="true" toc="default">
+                        <name>Trust Relationship Lifecycle</name>
+                        <t>Cross-domain trust relationships MUST have defined lifecycles:</t>
+                        <ul>
+                            <li>Periodic review and re-validation</li>
+                            <li>Documented procedures for trust relationship termination</li>
+                            <li>Immediate revocation capability when a trusted domain is 
+                            compromised</li>
+                            <li>Notification mechanisms between domains for security events</li>
+                        </ul>
+                    </section>
+                </section>
+                <section anchor="metadata-endpoint-security" numbered="true" toc="default">
+                    <name>Metadata Endpoint Security for Cross-Domain Trust</name>
+                    <t>Because the client-id metadata endpoint is the sole trust anchor for 
+                    cross-domain agent identity, it requires enhanced protection beyond typical 
+                    endpoint security.</t>
+                    <section anchor="endpoint-integrity" numbered="true" toc="default">
+                        <name>Endpoint Integrity Beyond Transport</name>
+                        <t>Metadata documents SHOULD be signed independently of the transport 
+                        layer, allowing verification even if TLS is compromised or if the 
+                        document is cached by intermediaries.</t>
+                    </section>
+                    <section anchor="change-detection" numbered="true" toc="default">
+                        <name>Change Detection for Cached Metadata</name>
+                        <t>Authorization Servers SHOULD:</t>
+                        <ul>
+                            <li>Cache fetched metadata documents with appropriate TTLs</li>
+                            <li>Detect and alert on unexpected changes to critical fields 
+                            (jwks_uri, vc+jwt, token_endpoint_auth_method)</li>
+                            <li>Implement anomaly detection for metadata that changes more 
+                            frequently than expected</li>
+                        </ul>
+                    </section>
+                    <section anchor="availability-dependencies" numbered="true" toc="default">
+                        <name>Cross-Domain Availability Dependencies</name>
+                        <t>When metadata endpoints are unavailable, cross-domain authorization 
+                        fails. Implementations SHOULD:</t>
+                        <ul>
+                            <li>Cache validated metadata with TTLs appropriate to the sensitivity 
+                            of protected resources</li>
+                            <li>Implement circuit breakers to prevent cascading failures</li>
+                            <li>Define graceful degradation policies</li>
+                        </ul>
+                    </section>
+                </section>
+                <section anchor="delegation-security" numbered="true" toc="default">
+                    <name>Delegation Security Across Domain Boundaries</name>
+                    <section anchor="boundary-checkpoints" numbered="true" toc="default">
+                        <name>Domain Boundary Checkpoints</name>
+                        <t>When a delegation chain crosses a domain boundary, the receiving 
+                        domain's AS MUST:</t>
+                        <ul>
+                            <li>Fully verify the upstream delegation chain before accepting</li>
+                            <li>Apply local policy to the delegation</li>
+                            <li>Log the domain boundary crossing for audit purposes</li>
+                        </ul>
+                    </section>
+                    <section anchor="scope-narrowing" numbered="true" toc="default">
+                        <name>Monotonic Scope Narrowing Across Domains</name>
+                        <t>Implementations MUST enforce that effective scope can only decrease 
+                        (or remain the same) at each delegation step, including when crossing 
+                        domain boundaries. The receiving domain MUST apply its local policy as 
+                        an additional constraint on effective scope.</t>
+                    </section>
+                    <section anchor="chain-preservation" numbered="true" toc="default">
+                        <name>Accountability Chain Preservation</name>
+                        <t>Delegation chains spanning domains MUST maintain cryptographically 
+                        verifiable accountability. Each domain SHOULD:</t>
+                        <ul>
+                            <li>Preserve the incoming delegation chain in its audit logs</li>
+                            <li>Add its own delegation record when extending the chain</li>
+                            <li>Provide APIs for authorized forensic queries from upstream 
+                            domains</li>
+                        </ul>
+                    </section>
+                </section>
+                <section anchor="privacy-considerations" numbered="true" toc="default">
+                    <name>Privacy Considerations for Cross-Domain Sharing</name>
+                    <section anchor="selective-disclosure" numbered="true" toc="default">
+                        <name>Selective Disclosure for Cross-Domain Presentations</name>
+                        <t>Agents presenting VCs across domain boundaries SHOULD use selective 
+                        disclosure mechanisms (SD-JWT VC, BBS+ signatures) to reveal only claims 
+                        necessary for the specific cross-domain authorization request.</t>
+                    </section>
+                    <section anchor="correlation-risk" numbered="true" toc="default">
+                        <name>Correlation Risk Assessment</name>
+                        <t>Organizations SHOULD assess cross-domain correlation risks before 
+                        establishing trust relationships, including whether agent identifiers 
+                        enable activity tracking by foreign domains.</t>
+                    </section>
+                </section>
+            </section>
         </section>
-        <section anchor="security-considerations" numbered="true" toc="default">
-            <name>Security Considerations</name>
-            <t>This section addresses security considerations specific to cross-domain 
-            authorization information sharing. Implementations MUST also follow security 
-            guidance in <xref target="RFC6819"/>, <xref target="W3C.VCDM2.0"/>, and 
-            <xref target="I-D.ietf-oauth-client-id-metadata-document"/>.</t>
-            <section anchor="trust-establishment" numbered="true" toc="default">
-                <name>Trust Establishment Between Domains</name>
-                <section anchor="domain-trust-lists" numbered="true" toc="default">
-                    <name>Domain Trust Lists</name>
-                    <t>Before accepting VCs from another domain, an Authorization Server 
-                    MUST verify that the issuing domain is in an explicitly configured trust 
-                    list. Implementations MUST NOT implicitly trust domains based solely on 
-                    successful cryptographic verification of the VC.</t>
-                    <t>Trust list entries SHOULD include:</t>
-                    <ul>
-                        <li>Domain identifier (issuerDomain claim value)</li>
-                        <li>Accepted VC types from that domain</li>
-                        <li>Scope of trust (which local resources may be accessed)</li>
-                        <li>Expiration or review date for the trust relationship</li>
-                    </ul>
-                </section>
-                <section anchor="policy-mapping" numbered="true" toc="default">
-                    <name>Cross-Domain Policy Mapping</name>
-                    <t>Implementations MUST NOT assume semantic equivalence of claims across 
-                    domains. Before accepting a VC from another domain, the AS SHOULD 
-                    verify:</t>
-                    <ol>
-                        <li>Explicit mapping exists between the foreign domain's claim 
-                        semantics and local policy requirements</li>
-                        <li>Compliance attestations in the VC meet local regulatory 
-                        requirements (not just the issuing domain's)</li>
-                        <li>Scope values have been mapped to local authorization semantics</li>
-                    </ol>
-                </section>
-                <section anchor="trust-lifecycle" numbered="true" toc="default">
-                    <name>Trust Relationship Lifecycle</name>
-                    <t>Cross-domain trust relationships MUST have defined lifecycles:</t>
-                    <ul>
-                        <li>Periodic review and re-validation</li>
-                        <li>Documented procedures for trust relationship termination</li>
-                        <li>Immediate revocation capability when a trusted domain is 
-                        compromised</li>
-                        <li>Notification mechanisms between domains for security events</li>
-                    </ul>
-                </section>
-            </section>
-            <section anchor="metadata-endpoint-security" numbered="true" toc="default">
-                <name>Metadata Endpoint Security for Cross-Domain Trust</name>
-                <t>Because the client-id metadata endpoint is the sole trust anchor for 
-                cross-domain agent identity, it requires enhanced protection beyond typical 
-                endpoint security.</t>
-                <section anchor="endpoint-integrity" numbered="true" toc="default">
-                    <name>Endpoint Integrity Beyond Transport</name>
-                    <t>Metadata documents SHOULD be signed independently of the transport 
-                    layer, allowing verification even if TLS is compromised or if the 
-                    document is cached by intermediaries.</t>
-                </section>
-                <section anchor="change-detection" numbered="true" toc="default">
-                    <name>Change Detection for Cached Metadata</name>
-                    <t>Authorization Servers SHOULD:</t>
-                    <ul>
-                        <li>Cache fetched metadata documents with appropriate TTLs</li>
-                        <li>Detect and alert on unexpected changes to critical fields 
-                        (jwks_uri, vc+jwt, token_endpoint_auth_method)</li>
-                        <li>Implement anomaly detection for metadata that changes more 
-                        frequently than expected</li>
-                    </ul>
-                </section>
-                <section anchor="availability-dependencies" numbered="true" toc="default">
-                    <name>Cross-Domain Availability Dependencies</name>
-                    <t>When metadata endpoints are unavailable, cross-domain authorization 
-                    fails. Implementations SHOULD:</t>
-                    <ul>
-                        <li>Cache validated metadata with TTLs appropriate to the sensitivity 
-                        of protected resources</li>
-                        <li>Implement circuit breakers to prevent cascading failures</li>
-                        <li>Define graceful degradation policies</li>
-                    </ul>
-                </section>
-            </section>
-            <section anchor="delegation-security" numbered="true" toc="default">
-                <name>Delegation Security Across Domain Boundaries</name>
-                <section anchor="boundary-checkpoints" numbered="true" toc="default">
-                    <name>Domain Boundary Checkpoints</name>
-                    <t>When a delegation chain crosses a domain boundary, the receiving 
-                    domain's AS MUST:</t>
-                    <ul>
-                        <li>Fully verify the upstream delegation chain before accepting</li>
-                        <li>Apply local policy to the delegation</li>
-                        <li>Log the domain boundary crossing for audit purposes</li>
-                    </ul>
-                </section>
-                <section anchor="scope-narrowing" numbered="true" toc="default">
-                    <name>Monotonic Scope Narrowing Across Domains</name>
-                    <t>Implementations MUST enforce that effective scope can only decrease 
-                    (or remain the same) at each delegation step, including when crossing 
-                    domain boundaries. The receiving domain MUST apply its local policy as 
-                    an additional constraint on effective scope.</t>
-                </section>
-                <section anchor="chain-preservation" numbered="true" toc="default">
-                    <name>Accountability Chain Preservation</name>
-                    <t>Delegation chains spanning domains MUST maintain cryptographically 
-                    verifiable accountability. Each domain SHOULD:</t>
-                    <ul>
-                        <li>Preserve the incoming delegation chain in its audit logs</li>
-                        <li>Add its own delegation record when extending the chain</li>
-                        <li>Provide APIs for authorized forensic queries from upstream 
-                        domains</li>
-                    </ul>
-                </section>
-            </section>
-            <section anchor="privacy-considerations" numbered="true" toc="default">
-                <name>Privacy Considerations for Cross-Domain Sharing</name>
-                <section anchor="selective-disclosure" numbered="true" toc="default">
-                    <name>Selective Disclosure for Cross-Domain Presentations</name>
-                    <t>Agents presenting VCs across domain boundaries SHOULD use selective 
-                    disclosure mechanisms (SD-JWT VC, BBS+ signatures) to reveal only claims 
-                    necessary for the specific cross-domain authorization request.</t>
-                </section>
-                <section anchor="correlation-risk" numbered="true" toc="default">
-                    <name>Correlation Risk Assessment</name>
-                    <t>Organizations SHOULD assess cross-domain correlation risks before 
-                    establishing trust relationships, including whether agent identifiers 
-                    enable activity tracking by foreign domains.</t>
-                </section>
-            </section>
         </section>
     </middle>
     <back>
