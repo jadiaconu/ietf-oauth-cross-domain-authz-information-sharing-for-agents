@@ -857,7 +857,7 @@ Effective_Scope(B) = A.delegatable_scope
             </ul>
             <t>This informational document does not make a formal request for IANA registration at this time. Registration would be appropriate if this approach is adopted and progresses to a standards track specification.</t>
         </section>
-        <section anchor="security-considerations">
+        <section anchor="security">
             <name>Security Considerations</name>
             <section anchor="security-considerations" numbered="true" toc="default">
                 <name>Security Considerations</name>
