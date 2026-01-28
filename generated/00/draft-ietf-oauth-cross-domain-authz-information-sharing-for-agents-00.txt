@@ -207,16 +207,16 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       what operations the agent may perform based on claims issued by a
       foreign domain.
 
-   Requirements  Verifiable agent identity across domain boundaries,
-      authorization claims that are interpretable by the receiving
-      domain.
+   Requirements  Verifiable agent and MCP server identity across domain
+      boundaries, authorization claims that are interpretable by the
+      receiving domain.
 
 3.2.  Enterprise Partnership Integration
 
-   Company A partners with Company B to provide integrated services.
-   Company A deploys a support agent that needs to access Company B's
-   customer ticketing system and knowledge base to resolve customer
-   issues.
+   Company A partners with Company B to provide integrated customer
+   support services.  Company A deploys a support agent that needs to
+   access Company B's customer ticketing system and knowledge base to
+   resolve customer issues.
 
 
 
@@ -254,8 +254,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       an auditable record of the delegation chain.
 
    Requirements  Multi-hop delegation with scope narrowing, cross-domain
-      accountability chains, and domain-specific policy enforcement at
-      each trust boundary crossing.
+      accountability chains, privacy-preserving identity claims, and
+      domain-specific policy enforcement at each trust boundary
+      crossing.
 
 3.4.  Supply Chain Data Exchange
 
@@ -273,7 +274,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       need different permission levels at different suppliers based on
       partnership agreements.  Suppliers must be able to audit which
       manufacturer agents accessed their data.
-
 
 
 
@@ -301,7 +301,7 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    Requirements  Verifiable compliance attestations that receiving
       domains can evaluate against local policies, and data sensitivity
-      clearance verification across regulatory boundaries.
+      clearance, verification across regulatory boundaries.
 
 4.  Requirements Summary
 
