@@ -98,8 +98,8 @@ Table of Contents
      7.2.  IANA Considerations . . . . . . . . . . . . . . . . . . .  28
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
      8.1.  Informative References  . . . . . . . . . . . . . . . . .  28
+   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  29
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
-
 
 
 
@@ -1587,6 +1587,12 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
               might have been invented)", ACM SIGOPS Operating Systems
               Review Volume 22, Issue 4, 1988.
 
+Contributors
+
+   Ankit Agarwal
+   Skyfire
+
+
 Authors' Addresses
 
    Jean Diaconu
@@ -1607,12 +1613,6 @@ Authors' Addresses
 
    Nik Kale
    Email: nikkal@cisco.com
-
-
-
-
-
-
 
 
 
