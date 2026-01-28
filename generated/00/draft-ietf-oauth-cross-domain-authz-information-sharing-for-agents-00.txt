@@ -5,13 +5,13 @@
 Internet Engineering Task Force                               J. Diaconu
 Internet-Draft                                                          
 Intended status: Informational                               M. Yannuzzi
-Expires: 20 July 2025                                                   
+Expires: 1 August 2026                                                  
                                                                 H. Muyal
                                                                         
                                                             F. Brockners
                                                                         
                                                                  N. Kale
-                                                         16 January 2025
+                                                         28 January 2026
 
 
            Cross-Domain AuthZ Information sharing for Agents
@@ -23,18 +23,10 @@ Abstract
    operating across multiple administrative domains, each with its own
    Identity Providers (IdPs) and Authorization Servers (AS).
 
-   In many deployments, a Subject delegates access to one or more Agents
-   that operate across domains and invoke MCP Servers to perform tasks
-   on the Subject’s behalf.  Each domain relies on its own identity and
-   authorization infrastructure, which makes it difficult to share
-   authorization information and related identity context along the
-   delegation chain in an interoperable and privacy-preserving way.
-
-   This document describes the problem of cross-domain authorization
-   information sharing for agents, outlines requirements that arise from
-   delegated, multi-domain use cases, and compares how existing
-   mechanisms may address those requirements, including dynamic
-   identity, interoperable claims, and verifiable credentials.
+   This document discusses the challenges and solution approaches for
+   sharing authorization information securely and flexibly across
+   domains, including the use of dynamic identity, interoperable claims,
+   and verifiable credentials.
 
 Status of This Memo
 
@@ -51,19 +43,20 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 1]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
-
-   This Internet-Draft will expire on 20 July 2025.
+   This Internet-Draft will expire on 1 August 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 1]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
@@ -76,65 +69,106 @@ Copyright Notice
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
    2.  Abbreviations / Definitions . . . . . . . . . . . . . . . . .   3
-   3.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   3
-   4.  Use Cases . . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     4.1.  Delegated Access Across Domains . . . . . . . . . . . . .   5
-     4.2.  Cross-Domain Policy-Constrained Access  . . . . . . . . .   5
-   5.  Requirements  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   3.  Use Cases . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     3.1.  Cross-Domain Tool Invocation  . . . . . . . . . . . . . .   4
+     3.2.  Enterprise Partnership Integration  . . . . . . . . . . .   4
+     3.3.  Multi-Vendor Workflow Orchestration . . . . . . . . . . .   5
+     3.4.  Supply Chain Data Exchange  . . . . . . . . . . . . . . .   5
+     3.5.  Regulatory Compliance Across Jurisdictions  . . . . . . .   6
+   4.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .   6
+   5.  Solution Approaches . . . . . . . . . . . . . . . . . . . . .   6
      5.1.  Solution Approach 1: Dynamic Client Registration (RFC
-           7591) . . . . . . . . . . . . . . . . . . . . . . . . . .   6
+           7591) . . . . . . . . . . . . . . . . . . . . . . . . . .   7
      5.2.  Solution Approach 2: SCIM extensions  . . . . . . . . . .   7
-     5.3.  Solution Approach 3: Client-ID Metadata . . . . . . . . .   8
+     5.3.  Solution Approach 3: Client-ID Metadata . . . . . . . . .   9
      5.4.  Solution Approach 4: Client-ID Metadata + W3C Verifiable
            Credentials Extension . . . . . . . . . . . . . . . . . .  10
-   6.  Example using Outshift Identity Service + Okta (IdP)  . . . .  12
-     6.1.  Metadata example  . . . . . . . . . . . . . . . . . . . .  12
-     6.2.  VC example  . . . . . . . . . . . . . . . . . . . . . . .  13
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
-     9.1.  Informative References  . . . . . . . . . . . . . . . . .  14
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+       5.4.1.  Delegation Semantics for Cross-Domain Multi-Agent
+               Workflows . . . . . . . . . . . . . . . . . . . . . .  13
+       5.4.2.  Agent Authorization Verifiable Credential Profile . .  18
+   6.  Example . . . . . . . . . . . . . . . . . . . . . . . . . . .  20
+     6.1.  Client-ID Metadata Example  . . . . . . . . . . . . . . .  20
+     6.2.  Verifiable Credential Example . . . . . . . . . . . . . .  21
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  22
+     7.1.  Security Considerations . . . . . . . . . . . . . . . . .  22
+       7.1.1.  Threat Model for Cross-Domain Authorization
+               Sharing . . . . . . . . . . . . . . . . . . . . . . .  23
+     7.2.  IANA Considerations . . . . . . . . . . . . . . . . . . .  28
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
+     8.1.  Informative References  . . . . . . . . . . . . . . . . .  28
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
+
+
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 2]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
 
 1.  Introduction
 
-   Distributed Multi-Agent Systems contain Agents and MCP Servers
-   distributed across multiple administrative domains.
+   Distributed Multi-Agent Systems, consisting of Agents and Model
+   Context Protocol (MCP) Servers, are increasingly deployed across
+   multiple administrative domains.  Each domain typically operates its
+   own Identity Providers (IdPs) and Authorization Servers (AS),
+   creating a fundamental challenge: how can an agent from Organization
+   A securely prove its identity and authorization to resources in
+   Organization B?
 
-   These domains often use different Identity Providers (IdPs) and
-   Authorization Servers (AS), presenting significant challenges for
-   secure, interoperable sharing of authorization information.
+   While OAuth 2.0 and related specifications provide robust
+   authorization frameworks for human users and pre-registered clients,
+   the emergence of autonomous agent systems operating across
+   organizational boundaries presents new challenges that existing
+   mechanisms do not fully address.
 
+   This challenge is distinct from traditional cross-domain identity
+   federation for human users.  Humans rarely delegate authority through
+   multiple organizational boundaries.  Agents routinely do so--an
+   orchestrator agent in Domain X may invoke a tool agent in Domain Y,
+   which accesses an MCP server in Domain Z.  Existing authorization
+   mechanisms such as OAuth 2.0 Dynamic Client Registration [RFC7591]
+   and Token Exchange [RFC8693] assume single-domain operation or pre-
+   established relationships, and do not address the dynamic, multi-hop
+   delegation patterns that characterize modern agentic systems.
 
+   This document analyzes the cross-domain agent authorization problem
+   and evaluates solution approaches.  The proposed solution extends
+   OAuth 2.0 Client-ID Metadata
+   [I-D.ietf-oauth-client-id-metadata-document] with W3C Verifiable
+   Credentials [W3C.VCDM2.0] to enable dynamic identity establishment
+   without pre-registration across domains, cryptographically verifiable
+   authorization claims that travel with the agent, multi-hop delegation
+   with monotonic scope narrowing and accountability chains, and
+   selective disclosure of sensitive authorization attributes.
 
-Diaconu, et al.           Expires 20 July 2025                  [Page 2]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
-
-   This document focuses on cross-domain authorization information
-   sharing where a Subject delegates access across multiple domains via
-   chained agents.
-
-   In the core scenario, a principal (Subject) delegates to an Agent in
-   Domain A, which may in turn invoke an Agent in Domain B to access
-   resources exposed by an MCP Server in Domain C or another domain.
-   Each domain is governed by its own IdPs and ASs, and existing
-   mechanisms provide only partial support for propagating authorization
-   information and associated identity context along this multi-hop
-   path.
-
-   While the motivating examples described here involve Agents and MCP
-   Servers, many of the identity and authorization challenges are also
-   applicable to other types of clients and resource servers operating
-   across domains.
+   The document is structured as follows: Section 2 defines key
+   terminology.  Section 3 presents use cases demonstrating cross-domain
+   scenarios.  Section 7.1.1 identifies threats specific to cross-domain
+   authorization sharing.  Section 4 establishes requirements and
+   evaluates solution approaches.  Section 7.1 covers security
+   considerations.
 
 2.  Abbreviations / Definitions
 
    Agent  An autonomous entity that performs tasks on behalf of a user
       or another program within a multi-agent system.
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 3]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
 
    MCP Server  A program that exposes specific capabilities, like data
       access or tools, to AI models through the Model Context Protocol
@@ -154,172 +188,155 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    Domain  Scope over which a specific, uniform set of security policies
       and user management rules are enforced.
 
-3.  Problem Statement
+3.  Use Cases
 
-   The problem addressed in this document is the sharing of
-   authorization information and related identity context across
-   multiple administrative domains involved in a delegated, multi-agent
-   flow.
+   The following use cases demonstrate scenarios where cross-domain
+   agent authorization presents challenges not addressed by existing
+   single-domain mechanisms.
+
+3.1.  Cross-Domain Tool Invocation
+
+   A coding assistant agent operated by Developer Tools Inc. needs to
+   invoke a code review tool provided by Code Analysis Corp.  The tool
+   is exposed as an MCP Server protected by Code Analysis Corp's
+   Authorization Server.
+
+   Cross-Domain Challenge  Developer Tools Inc.'s agent must present
+      credentials that Code Analysis Corp's AS can verify, despite
+      having no pre-existing trust relationship.  The AS must determine
+      what operations the agent may perform based on claims issued by a
+      foreign domain.
+
+   Requirements  Verifiable agent identity across domain boundaries,
+      authorization claims that are interpretable by the receiving
+      domain.
+
+3.2.  Enterprise Partnership Integration
+
+   Company A partners with Company B to provide integrated services.
+   Company A deploys a support agent that needs to access Company B's
+   customer ticketing system and knowledge base to resolve customer
+   issues.
 
 
 
 
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 3]
+Diaconu, et al.           Expires 1 August 2026                 [Page 4]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2025
+Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
-   In the delegation chain, each Agent and MCP Server typically operates
-   with its local notion of the Subject and its own authorization
-   configuration.  Existing mechanisms such as OAuth 2.0 Dynamic Client
-   Registration, SCIM-based provisioning, and Client-ID Metadata each
-   address aspects of client identity and authorization, but are not
-   designed to provide an interoperable, end-to-end way to convey
-   authorization information and proofs across domains and hops.
+   Cross-Domain Challenge  Company A's agent authenticates using Company
+      A's IdP and holds a Verifiable Credential issued by Company A.
+      Company B's Authorization Server has no trust relationship with
+      Company A's IdP--it cannot verify Company A's tokens.  Company B
+      needs a mechanism to verify the agent's identity and authorization
+      claims without requiring bilateral federation setup for every
+      partner.
 
-   As a result, implementers face challenges including:
+   Requirements  Dynamic identity verification across domains,
+      verifiable compliance attestations, and scope restrictions that
+      Company B's AS can enforce based on Company A's authorization
+      grants.
 
-   *  Aligning Subject and agent identity semantics across IdPs and ASs
-      operated by different organizations.
+3.3.  Multi-Vendor Workflow Orchestration
 
-   *  Propagating fine-grained authorization information and constraints
-      along Agent-to-Agent and Agent-to-MCP interactions without leaking
-      unnecessary data.
+   A security operations workflow involves agents from multiple vendors:
+   an orchestrator agent from Security Vendor X coordinates a threat
+   intelligence agent from Vendor Y and a remediation agent from Vendor
+   Z.  The orchestrator must delegate appropriate permissions to each
+   specialized agent.
 
-   *  Avoiding redundant or bespoke per-vendor solutions while still
-      meeting security, privacy, and compliance requirements.
+   Cross-Domain Challenge  The orchestrator in Domain X must delegate
+      authority to agents in Domains Y and Z.  Each receiving domain
+      must verify the delegation chain, ensure the delegated scope does
+      not exceed what the originating principal authorized, and maintain
+      an auditable record of the delegation chain.
 
-         Domain A (Organization A)           Domain B (Organization B)
-     +-----------------------------+     +-----------------------------+
-     |                             |     |                             |
-     |      +-------+              |     |              +-------+      |
-     |      | Agent |              |---->|              |  MCP  |      |
-     |      |       |              |     |              | Server|      |
-     |      +---+---+              |     |              +---+---+      |
-     |          |                  |     |                  ^          |
-     |          | Host/Publish     |     |                  | Protects |
-     |          v                  |     |                  |          |
-     |  +-------+-------+          |     |          +-------+-------+  |
-     |  |   Client-ID   |          |     |          | Authorization |  |
-     |  |   Metadata    |          |     |          |    Server     |  |
-     |  | (contains VC) |          |     |          |      (AS)     |  |
-     |  +---------------+          |     |          +---------------+  |
-     |                             |     |                             |
-     +-----------------------------+     +-----------------------------+
+   Requirements  Multi-hop delegation with scope narrowing, cross-domain
+      accountability chains, and domain-specific policy enforcement at
+      each trust boundary crossing.
 
-             Figure 1: Cross-Domain Multi-Agent Architecture
+3.4.  Supply Chain Data Exchange
 
-   Distributed Multi-Agent Systems contain Agents and MCP Servers that
-   are distributed across multiple administrative domains.  These
-   systems involve different Identity Providers (IdPs) / Authorization
-   Servers (AS) posing challenges in authorization information sharing
-   across these entities.
+   A manufacturer's inventory management agent needs to query suppliers'
+   availability systems.  Multiple suppliers operate their own
+   authorization infrastructure.  The agent must access each supplier's
+   MCP servers with appropriate credentials.
 
-
-
-
+   Cross-Domain Challenge  Each supplier's AS must verify the
+      manufacturer's agent without requiring manual pre-registration.
+      Dynamic Client Registration [RFC7591] would require the agent to
+      register separately with each supplier's AS, creating operational
+      overhead and not providing cryptographic verification of the
+      agent's authorization claims from its home domain.  The agent may
+      need different permission levels at different suppliers based on
+      partnership agreements.  Suppliers must be able to audit which
+      manufacturer agents accessed their data.
 
 
-Diaconu, et al.           Expires 20 July 2025                  [Page 4]
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 5]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2025
+Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
-4.  Use Cases
+   Requirements  Dynamic agent provisioning across multiple foreign
+      domains, verifiable identity without pre-registration, and domain-
+      specific scope mappings.
 
-   This section illustrates example flows in which a Subject delegates
-   to one or more Agents operating across domains to access resources
-   protected by MCP Servers.  The examples are intended to clarify the
-   cross-domain identity and authorization challenges described in the
-   Problem Statement.
+3.5.  Regulatory Compliance Across Jurisdictions
 
-4.1.  Delegated Access Across Domains
+   A financial services agent operating in the EU needs to access data
+   from a partner institution in the US.  Both jurisdictions have
+   different regulatory requirements.
 
-   *Description:* Subject-initiated access where authorization must be
-   conveyed along a delegation chain that spans multiple administrative
-   domains.
+   Cross-Domain Challenge  The receiving domain's AS must verify that
+      the requesting agent's compliance attestations meet local policy
+      requirements.  The VC issued by the originating domain asserts
+      compliance with GDPR; the receiving domain must determine whether
+      this satisfies its own data handling requirements without assuming
+      equivalence of compliance frameworks.
 
-   *Use Case:* A Subject in Domain A uses an Agent (Agent A) to perform
-   a task that requires data located in Domain B and processed by an MCP
-   Server in Domain C.  Agent A obtains authorization from the AS in
-   Domain A and then invokes an Agent in Domain B (Agent B), which in
-   turn calls an MCP Server in Domain C.  Each domain relies on its own
-   IdP/AS and local policy.  Authorization information and relevant
-   identity context for the Subject and Agents need to be shared in a
-   way that allows the downstream domains to make policy decisions
-   without learning more than is necessary about the Subject or the
-   internal policies of upstream domains.
+   Requirements  Verifiable compliance attestations that receiving
+      domains can evaluate against local policies, and data sensitivity
+      clearance verification across regulatory boundaries.
 
-4.2.  Cross-Domain Policy-Constrained Access
-
-   *Description:* Delegated access where each domain imposes its own
-   constraints on what an Agent may do on behalf of a Subject.
-
-   *Use Case:* A financial institution in Domain A delegates monitoring
-   tasks to an Agent that must access transaction logs exposed by an MCP
-   Server operated by a service provider in Domain B.  The Institution’s
-   policies restrict the Agent from accessing personally identifiable
-   information (PII) and require evidence that the downstream service
-   complies with certain regulatory and security controls.  The service
-   provider’s policies in Domain B, enforced via its own IdP and AS,
-   must evaluate authorization information received from Domain A and
-   decide which actions Agent B and the MCP Server are allowed to
-   perform, based on both local and cross-domain policy.
-
-
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 5]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
-
-5.  Requirements
+4.  Requirements Summary
 
    A system for cross-domain sharing of authorization information of
-   agents needs to meet the following set of requirements.  These
-   requirements are derived from the delegated, cross-domain flows
-   introduced in the Problem Statement and Use Cases and are intended to
-   frame security and interoperability considerations early in this
-   document.
+   agents needs to meet the following set of requirements:
 
    *  *Dynamic Identity for Agents and MCP Servers:* The Agents and MCP
       Servers can onboard dynamically and get an assigned identity in
-      the IdP so that delegated access can be attributed and evaluated
-      consistently across domains.
+      the IdP.
 
-   *  *Interoperability Across Domains:* The system must enable
-      interaction between Agents and MCP Servers across different
-      domains without requiring bespoke, per-domain identity or
-      authorization arrangements.
+   *  *Interoperability Across Domains:* The system must enable seamless
+      interaction between Agents across different domains.
 
    *  *Flexible Definition of Claims:* Claims should be adaptable as
-      they may vary from organization to organization, while still
-      allowing relying parties in other domains to interpret and
-      evaluate them.
+      they may vary from organization to organization.
 
    *  *Dynamic Management of Authorization Information:* The system must
       allow creation, removal, updating, and deletion of authorization
-      information for agents, as agents can be highly dynamic and may
-      participate in short-lived delegation chains.
+      information for agents, as agents can be highly dynamic.
 
-   *  *Security and Privacy:* Ensuring secure and privacy-preserving
-      sharing of authorization information across domains, including the
-      ability to avoid disclosing more information about the Subject or
-      Agents than is necessary for a given interaction.
+   *  *Security and Privacy:* Ensuring secure and private sharing of
+      authorization information across domains.
 
    *  *Compliance and Auditability:* Support for compliance with
-      regulatory standards and auditability of authorization exchanges,
-      including the ability to trace which Agents and domains
-      participated in delegated access.
+      regulatory standards and auditability of authorization exchanges.
+
+5.  Solution Approaches
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 6]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
 
 5.1.  Solution Approach 1: Dynamic Client Registration (RFC 7591)
 
@@ -328,15 +345,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    management of client credentials and metadata.
 
    *Discussion:*
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 6]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
    +==================+===============================+================+
    | Requirement      | Met or Partially Met          | Not Met        |
@@ -379,6 +387,13 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    provisioning, management, and governance of AI agents and other
    digital workers.
 
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 7]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
    [I-D.wahl-scim-agent-schema] is a companion document to the draft-
    abbey-scim-agent-extension.  Its purpose is to define the specific
    SCIM schema and attributes required to represent AI agents (digital
@@ -386,13 +401,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
 
    *Description:* Provision Agents / MCP Servers through a SCIM
    extension.
-
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 7]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
    *Discussion:*
 
@@ -429,6 +437,19 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
 
                                   Table 2
 
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 8]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
 5.3.  Solution Approach 3: Client-ID Metadata
 
    *Description:* Client ID Metadata
@@ -439,16 +460,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    the client's provided URL to provision the identity.
 
    *Discussion:*
-
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 8]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
    +==================+==========================+=====================+
    | Requirement      | Met or Partially Met     | Not Met             |
@@ -485,6 +496,16 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
 
                                   Table 3
 
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                 [Page 9]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
    **Flexible Definition of Claims:* The OAuth claims in the draft
    follow the claims exposed and defined by IANA OAuth Parameters.
    Hence, the metadata fields are limited to a fixed set of claims.
@@ -492,19 +513,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    including provenance details, compliance attestations, or contextual
    trust scores without introducing vendor-specific extensions, thereby
    reducing portability and interoperability.
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                  [Page 9]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
    ***Security and Privacy, Compliance and Auditability:* All metadata
    is published to a publicly accessible endpoint.  There is no native
@@ -534,7 +542,7 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
         |                            |    & Verify VC Signature (JWKS)
         |                            |                      |
 
-          Figure 2: Client-ID Metadata with VC Verification Flow
+          Figure 1: Client-ID Metadata with VC Verification Flow
 
    *Description:* The proposed solution is based on Solution 3, but
    enhances the supported claims with a new claim, "vc+jwt", based on
@@ -546,21 +554,20 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
       encapsulated within a JSON Web Token (JWT), which provides a
       cryptographic signature from the issuer.  This signature allows
       any third party (the Verifier) to instantly confirm the
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 10]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
       credential's authenticity and integrity.  Modern formats like SD-
       JWT VC further enhance this by enabling the holder to share only
       specific parts of the credential (Selective Disclosure) to protect
       privacy.
 
    *Discussion:*
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                 [Page 10]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
       +===========================+======================+=========+
       | Requirement               | Met or Partially Met | Not Met |
@@ -601,6 +608,16 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    secure way to establish trust, delegate authority, and ensure
    interoperability across different systems.
 
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 11]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
    It enables Agents, MCP Clients, and MCP Servers to prove, among other
    things, their identities, identity issuers and provenance, supported
    skills and permitted actions through verifiable proofs, including
@@ -610,13 +627,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    Additionally, it enhances privacy through selective disclosure and
    privacy-preserving proofs (e.g., allowing Agents to prove skills and
    authorized actions without exposing unnecessary details).
-
-
-
-Diaconu, et al.           Expires 20 July 2025                 [Page 11]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
 
    The Verifiable Credentials Data Model 2.0 is a W3C standard that fits
    the needs expressed above:
@@ -655,95 +665,888 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
    regulatory-grade accountability, and reliable lifecycle tracking
    across distributed systems.
 
-6.  Example using Outshift Identity Service + Okta (IdP)
 
-6.1.  Metadata example
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 12]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+5.4.1.  Delegation Semantics for Cross-Domain Multi-Agent Workflows
+
+   Multi-agent systems frequently involve chains of delegation where
+   Agent A invokes Agent B, which may invoke Agent C—potentially
+   spanning multiple administrative domains.  This section defines
+   authorization semantics for such delegation chains, addressing the
+   novel challenges of cross-domain delegation.
+
+   Humans rarely delegate authority through multiple levels across
+   organizational boundaries.  Agents routinely do so.  Existing
+   delegation mechanisms ([RFC8693] Token Exchange 'act' claims) assume
+   single-domain operation and do not address cross-domain VC-based
+   delegation with verifiable accountability chains.
+
+5.4.1.1.  Delegation Models
+
+   This specification supports two delegation models:
+
+   Direct Invocation  Agent A directly invokes MCP Server M using A's
+      own credentials.  No delegation occurs; authorization is based
+      solely on A's VC.
+
+   Delegated Invocation (Cross-Domain)  Agent A in Domain X invokes
+      Agent B in Domain Y to perform a task.  B acts on A's behalf (and
+      transitively, on behalf of A's originating principal) when
+      accessing resources.  The authorization decision considers both
+      A's delegation grant and B's own credentials, applying Domain Y's
+      policies.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 13]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   Domain X                          |  Domain Y
+                                     |
+   +-----------+   +---------+       |  +---------+   +--------------+
+   | Principal |   | Agent A |       |  | Agent B |   | MCP Server M |
+   |     P     |   |         |       |  |         |   |              |
+   +-----------+   +---------+       |  +---------+   +--------------+
+         |              |            |       |               |
+         | 1. Task      |            |       |               |
+         |------------->|            |       |               |
+         |              |            |       |               |
+         |              | 2. Delegate + VC(A)|               |
+         |              |------------|------>|               |
+         |              |            |       |               |
+         |              |            |       | 3. Request    |
+         |              |            |       |    + VC(B)    |
+         |              |            |       |    + Deleg(A) |
+         |              |            |       |-------------->|
+         |              |            |       |               |
+         |              |            |       |  4. Verify chain
+         |              |            |       |  5. Apply local policy
+         |              |            |       |  6. Authorize
+
+                   Figure 2: Cross-Domain Delegation Flow
+
+5.4.1.2.  Scope Derivation Rules
+
+   When Agent A delegates to Agent B (potentially across domains), B's
+   effective scope MUST be computed as the intersection of:
+
+   1.  A's delegatable scope: The subset of A's permissions that A is
+       authorized to delegate
+
+   2.  B's intrinsic scope: The permissions B holds in its own VC
+
+   3.  Explicit delegation grant: What A actually delegated to B for
+       this invocation
+
+   4.  Receiving domain policy: The maximum scope the receiving domain
+       permits for this cross-domain delegation
+
+   Effective_Scope(B) = A.delegatable_scope
+                        INTERSECT B.intrinsic_scope
+                        INTERSECT Delegation.granted_scope
+                        INTERSECT Receiving_Domain_Policy
+
+                     Figure 3: Scope Derivation Formula
+
+   This ensures:
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 14]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   *  B cannot exceed A's authority (no privilege amplification)
+
+   *  B cannot exceed its own authority (intrinsic limits apply)
+
+   *  A can further restrict B for specific tasks (explicit grant)
+
+   *  The receiving domain retains sovereignty over its resources (local
+      policy)
+
+   Implementations MUST enforce monotonic scope narrowing: at each
+   delegation step, effective scope can only decrease or remain the
+   same, never increase.
+
+   This intersection semantics aligns with capability-based security
+   principles (see: Mark Miller's Principle of Least Authority, Google
+   Macaroons, Biscuit authorization tokens) and extends [RFC8693] Token
+   Exchange delegation semantics to cross-domain VC-based scenarios.
+
+5.4.1.3.  Accountability Chain Construction
+
+   Each delegation step MUST produce a verifiable record enabling cross-
+   domain forensic reconstruction.  The delegation record MUST include:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 15]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+    +==================+=================+===========================+
+    | Field            | Description     | Cross-Domain Relevance    |
+    +==================+=================+===========================+
+    | delegator_id     | Agent A's id    | Enables tracing to        |
+    |                  | from its VC     | originating domain        |
+    +------------------+-----------------+---------------------------+
+    | delegator_domain | Domain that     | Identifies trust          |
+    |                  | issued A's VC   | relationship to verify    |
+    +------------------+-----------------+---------------------------+
+    | delegatee_id     | Agent B's id    | Identifies receiving      |
+    |                  | from its VC     | agent                     |
+    +------------------+-----------------+---------------------------+
+    | delegatee_domain | Domain that     | Identifies receiving      |
+    |                  | issued B's VC   | domain                    |
+    +------------------+-----------------+---------------------------+
+    | timestamp        | Time of         | Temporal ordering for     |
+    |                  | delegation      | forensics                 |
+    +------------------+-----------------+---------------------------+
+    | granted_scope    | Scopes          | Audit of intended         |
+    |                  | delegated       | authorization             |
+    +------------------+-----------------+---------------------------+
+    | expiration       | Delegation      | MUST NOT exceed           |
+    |                  | validity period | delegator's VC expiration |
+    +------------------+-----------------+---------------------------+
+    | chain_hash       | Cryptographic   | Ensures chain integrity   |
+    |                  | binding to      | across domains            |
+    |                  | prior chain     |                           |
+    +------------------+-----------------+---------------------------+
+
+                    Table 5: Delegation Record Fields
+
+   The complete accountability chain enables:
+
+   1.  Cross-domain attribution: Determining which principal originated
+       a request that traversed multiple domains
+
+   2.  Forensic reconstruction: Rebuilding the sequence of delegations
+       across domain boundaries
+
+   3.  Coordinated revocation: Identifying downstream delegations in
+       other domains that must be invalidated
+
+5.4.1.4.  Delegation Depth Limits
+
+   Implementations SHOULD enforce maximum delegation depth.  Cross-
+   domain delegations SHOULD count toward depth limits regardless of
+   whether they're same-domain or cross-domain.
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 16]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   Receiving domains MAY impose stricter depth limits than the
+   originating domain.  When a delegation would exceed the receiving
+   domain's depth limit, the AS MUST reject the request with an error
+   indicating the depth violation.
+
+5.4.1.5.  Delegation Claims in VCs
+
+   To express delegation authority in VCs, the following claims are
+   defined for credentialSubject:
 
    {
-     "client_id": "https://identity_service/mcp-001/oauth/client-metadata.json",
-     "client_name": "Example CIMD Client",
-     "jwks_uri": "https://identity-service/XYZ/.well-known/jwks.json",
-     "token_endpoint_auth_method": "private_key_jwt",
-     "vc+jwt": "{VC with JOSE envelope}"
+     "credentialSubject": {
+       "id": "https://example.com/agents/agent-a",
+       "delegation": {
+         "permitted": true,
+         "maxDepth": 2,
+         "crossDomainDelegation": {
+           "permitted": true,
+           "allowedDomains": ["partner.example.org"],
+           "deniedDomains": ["competitor.example.com"]
+         },
+         "allowedDelegateeTypes": ["tool-agent", "workflow-agent"],
+         "scopeRestrictions": {
+           "nonDelegatable": ["admin:*", "pii:write"],
+           "crossDomainNonDelegatable": ["internal:*"]
+         }
+       }
+     }
    }
 
+                    Figure 4: Delegation Claims Example
+
+   delegation.permitted  Boolean indicating whether this agent may
+      delegate.  Default: false.
+
+   delegation.maxDepth  Maximum additional delegation hops this agent
+      may initiate.  Default: 0.
+
+   delegation.crossDomainDelegation.permitted  Whether cross-domain
+      delegation is allowed at all.
+
+   delegation.crossDomainDelegation.allowedDomains  Domains to which
+      delegation is permitted (wildcards allowed).
+
+   delegation.scopeRestrictions.crossDomainNonDelegatable  Scopes that
+      may be delegated within the same domain but MUST NOT be delegated
+      across domain boundaries.
 
 
-Diaconu, et al.           Expires 20 July 2025                 [Page 12]
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 17]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2025
+Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
-6.2.  VC example
+5.4.2.  Agent Authorization Verifiable Credential Profile
+
+   This section defines a Verifiable Credential profile that enables
+   interoperable cross-domain agent authorization.  The profile
+   specifies claims that Authorization Servers in different domains can
+   reliably interpret.
+
+   W3C VCDM 2.0 is intentionally flexible.  For cross-domain
+   interoperability, domains must agree on claim semantics.  This
+   profile provides that common language.
+
+5.4.2.1.  Profile Objectives
+
+   The Agent Authorization VC Profile (AAVC) enables:
+
+   *  Cross-domain interoperability: ASs in different domains can parse
+      and evaluate the same VC
+
+   *  Semantic clarity: Claim meanings are defined, reducing policy skew
+      risk
+
+   *  Extensibility: Organizations can add custom claims without
+      breaking base interoperability
+
+   *  Selective disclosure compatibility: Claims are structured to
+      support SD-JWT VC presentation
+
+5.4.2.2.  Required Claims for Cross-Domain Interoperability
+
+   The credentialSubject MUST include these claims for a VC to be
+   recognized across domains:
+
+   id (required)  Globally unique identifier for the agent.  SHOULD be a
+      dereferenceable URI pointing to client-id metadata.
+
+   agentType (required)  Classification of the agent.  Receiving domains
+      use this to apply type-specific policies.  Implementations MUST
+      support:
+
+      *  tool-agent: Provides specific tool/skill capabilities
+
+      *  orchestrator-agent: Coordinates other agents
+
+      *  workflow-agent: Executes multi-step workflows
+
+      *  system-agent: Long-running infrastructure agent
+
+      *  ephemeral-agent: Short-lived, single-task
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 18]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   authorizedScopes (required)  Authorization scopes this agent may
+      request.  Receiving domains map these to local authorization
+      policies.
+
+   issuerDomain (required)  Administrative domain of the credential
+      issuer.  Receiving ASs use this to look up trust relationships and
+      policy mappings.
+
+5.4.2.3.  Recommended Claims for Production Deployments
+
+   dataSensitivityClearance (recommended)  Maximum data sensitivity
+      level this agent may access.  Standard values:
+
+      *  public - Publicly available information
+
+      *  internal - Organization-internal, non-sensitive
+
+      *  confidential - Business-sensitive information
+
+      *  restricted - Highly sensitive, need-to-know basis
+
+      *  regulated - Subject to regulatory controls (PII, PHI, PCI)
+
+   complianceAttestations (recommended)  Compliance certifications
+      relevant to cross-domain trust decisions.  Should include
+      standard, scope, validUntil, and optionally certificationBody.
+
+   operationalConstraints (recommended)  Runtime constraints that
+      receiving domains MAY enforce, including maxConcurrentSessions,
+      maxRequestsPerMinute, allowedTimeWindows, and geofence
+      restrictions.
+
+   delegation (recommended)  Delegation permissions as defined in
+      Section 5.4.1.5.
+
+5.4.2.4.  Extension Mechanism
+
+   Organizations MAY extend the profile with additional claims by:
+
+   1.  Defining a JSON-LD context document for the extension
+
+   2.  Including the extension context URI in the VC's @context array
+
+   3.  Adding extension claims under a namespace prefix
+
+   Implementations receiving VCs with unrecognized claims SHOULD:
+
+   *  Ignore unknown claims (do not reject the VC)
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 19]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   *  Log unrecognized claims for operational visibility
+
+   *  NOT make authorization decisions based on claims they cannot
+      interpret
+
+5.4.2.5.  Interoperability Requirements
+
+   For cross-domain interoperability, implementations:
+
+   MUST:
+
+   *  Support required claims (id, agentType, authorizedScopes,
+      issuerDomain)
+
+   *  Recognize the AgentAuthorizationCredential type
+
+   *  Verify the credential proof before processing claims
+
+   *  Reject VCs missing required claims
+
+   SHOULD:
+
+   *  Support recommended claims
+
+   *  Implement selective disclosure for cross-domain presentations
+
+   *  Maintain logs of cross-domain VC presentations
+
+   MAY:
+
+   *  Define and process organization-specific extensions
+
+   *  Implement additional validation beyond profile requirements
+
+6.  Example
+
+   This section provides illustrative examples of how Client-ID Metadata
+   can be extended with Verifiable Credentials for agent identity.
+   These examples demonstrate the recommended Approach 4 and show how
+   the concepts apply to scenarios similar to the travel booking use
+   case described earlier.  These examples are non-normative and
+   intended to demonstrate the concepts discussed in this document.
+
+6.1.  Client-ID Metadata Example
+
+   The following example shows OAuth client metadata that includes a
+   Verifiable Credential in the "vc+jwt" field:
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 20]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   {
+     "client_id": "https://agents.example.com/agent-001/metadata.json",
+     "client_name": "Customer Service Agent 001",
+     "jwks_uri": "https://agents.example.com/agent-001/jwks.json",
+     "token_endpoint_auth_method": "private_key_jwt",
+     "grant_types": ["client_credentials"],
+     "scope": "read:orders write:tickets",
+     "vc+jwt": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJAY29udGV4dCI6W..."
+   }
+
+   The "vc+jwt" field contains a JWT-encoded Verifiable Credential.  The
+   actual JWT would be significantly longer and contain the complete
+   credential structure shown in the next subsection.
+
+6.2.  Verifiable Credential Example
+
+   The following example shows the decoded structure of a Verifiable
+   Credential for an agent (before JWT encoding):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 21]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
 
    {
      "@context": [
        "https://www.w3.org/2018/credentials/v1",
-       "https://example.org/mcp-server/schema/v1"
+       "https://example.org/agent-credentials/v1"
      ],
-     "type": ["VerifiableCredential", "McpServerCredential"],
-     "issuer": "did:web:XYZ.okta.com",
-     "jwks_uri": "https://identity-service/XYX/.well-known/jwks.json",
-     "issuanceDate": "2025-11-10T00:00:00Z",
+     "type": ["VerifiableCredential", "AgentIdentityCredential"],
+     "issuer": "did:web:issuer.example.com",
+     "issuanceDate": "2025-01-15T10:30:00Z",
+     "expirationDate": "2026-01-15T10:30:00Z",
      "credentialSubject": {
-       "id": "https://identity_service/mcp-001/oauth/client-metadata.json",
-       "name": "MCP-001",
-       "version": "3.2.1",
-       "compliance": ["ISO-27001", "GDPR"],
-       "trustScore": 0.94
+       "id": "https://agents.example.com/agent-001/metadata.json",
+       "agentName": "Customer Service Agent 001",
+       "agentVersion": "2.1.0",
+       "agentType": "customer-service",
+       "owner": "did:web:example.com",
+       "authorizedCapabilities": [
+         "order-lookup",
+         "ticket-creation",
+         "customer-notification"
+       ],
+       "complianceFrameworks": ["SOC2-TypeII", "ISO-27001"],
+       "delegationLevel": 1,
+       "maxDelegationDepth": 2
      },
-     "proof": {
-       "type": "Ed25519Signature2020",
-       "created": "2025-11-10T00:00:00Z",
-       "proofPurpose": "assertionMethod",
-       "verificationMethod": "did:web:identity-service/XYZ#keys-1",
-       "jws": "eyJhbGciOiJFZERTQSJ9..xyzsignature"
+     "credentialStatus": {
+       "id": "https://issuer.example.com/status/2024/12345",
+       "type": "StatusList2021Entry",
+       "statusPurpose": "revocation",
+       "statusListIndex": "12345",
+       "statusListCredential": "https://issuer.example.com/status/2024"
      }
    }
 
-7.  IANA Considerations
+   Note: The actual credential would include a "proof" section with
+   cryptographic signatures.  The proof section is omitted here for
+   clarity, as it would add significant length to the example.  The
+   proof structure varies depending on the signature suite used (e.g.,
+   Ed25519Signature2020, JsonWebSignature2020).
 
-   This memo includes no request to IANA.
+7.  Security Considerations
 
-8.  Security Considerations
+7.1.  Security Considerations
 
-   This document does not define a new protocol.  Instead, it analyzes
-   how existing mechanisms may be used or profiled to support delegated,
-   cross-domain authorization information sharing for Agents and MCP
-   Servers.
-
-   Security and privacy considerations arise primarily from:
-
-   *  the need to align Subject and Agent identity semantics across
-      domains and IdPs/ASs,
-
-   *  the requirement to share authorization information and proofs
-      without disclosing more data than is necessary for a given
-      interaction, and
+   This section addresses security considerations specific to cross-
+   domain authorization information sharing.  Implementations MUST also
+   follow security guidance in [RFC6819], [W3C.VCDM2.0], and
+   [I-D.ietf-oauth-client-id-metadata-document].
 
 
 
 
-
-Diaconu, et al.           Expires 20 July 2025                 [Page 13]
+Diaconu, et al.           Expires 1 August 2026                [Page 22]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2025
+Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
-   *  the need to support auditability and policy enforcement across
-      multi-hop delegation chains.
+7.1.1.  Threat Model for Cross-Domain Authorization Sharing
 
-   These considerations are reflected in the requirements in this
-   document and in the discussion of the individual solution approaches.
-   Implementations MUST also take into account the security
-   considerations of the underlying specifications on which they rely,
-   including but not limited to OAuth 2.0 Dynamic Client Registration,
-   SCIM, Client-ID Metadata, and the W3C Verifiable Credentials Data
-   Model.
+   This section defines threats specific to sharing authorization
+   information across administrative domain boundaries.  General OAuth
+   and VC security threats are addressed in [RFC6819] and [W3C.VCDM2.0];
+   this section focuses on threats that emerge or are amplified when
+   credentials cross domain boundaries.
 
-9.  References
+7.1.1.1.  Protected Assets in Cross-Domain Scenarios
 
-9.1.  Informative References
+   Beyond standard authorization assets, cross-domain sharing introduces
+   additional assets requiring protection:
+
+   Cross-Domain Trust Relationships  The established trust between
+      domains that enables agents to operate across organizational
+      boundaries.  Compromise affects all agents relying on that trust
+      relationship.
+
+   Shared Authorization Semantics  The agreed-upon meaning of claims,
+      scopes, and compliance attestations between domains.  Semantic
+      drift or manipulation can cause authorization decisions that
+      violate one or both domains' policies.
+
+   Delegation Chains Spanning Domains  When agent A in Domain X
+      delegates to agent B in Domain Y, the chain itself becomes an
+      asset requiring integrity protection across trust boundaries.
+
+7.1.1.2.  Cross-Domain Specific Threat Actors
+
+   Rogue Domain  An entire domain that participates in the trust
+      federation but issues fraudulent VCs or makes incorrect
+      authorization decisions—either through compromise or malicious
+      operation.  Unlike a single rogue IdP, a rogue domain may control
+      IdP, AS, and metadata endpoints coherently.
+
+   Cross-Domain Insider  An administrator with legitimate access in
+      Domain A who abuses cross-domain trust relationships to gain
+      unauthorized access to Domain B's resources.
+
+7.1.1.3.  Cross-Domain Attack Categories
+
+7.1.1.3.1.  Trust Anchor Attacks
+
+   Metadata Endpoint Compromise  An attacker gains control of the URL
+      hosting an agent's client-id metadata document and substitutes
+      malicious metadata or VCs.  Because the metadata URL is the trust
+      anchor for cross-domain identity, compromise enables complete
+      identity takeover across all trusting domains.
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 23]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+      Cross-domain amplification: In single-domain scenarios, the AS
+      typically has out-of-band trust with clients.  In cross-domain
+      scenarios, the metadata endpoint IS the sole trust anchor—there's
+      no fallback.
+
+   Metadata Poisoning  Injection of false claims into legitimate
+      metadata documents through supply chain attacks, DNS hijacking, or
+      exploitation of hosting infrastructure.
+
+      Cross-domain amplification: Poisoned metadata propagates trust
+      violations to all domains that fetch and cache the metadata.
+
+7.1.1.3.2.  Semantic Attacks
+
+   Policy Skew Exploitation  An agent authorized under Domain A's
+      policies operates in Domain B where different security policies
+      apply.  The agent performs actions that are within Domain A's
+      authorized scope but violate Domain B's policies.
+
+   Claim Semantic Drift  Domains interpret the same claim differently,
+      leading to authorization decisions that neither domain intended.
+
+   Compliance Attestation Mismatch  Compliance attestations (SOC2, ISO-
+      27001, GDPR) in VCs are accepted at face value without verifying
+      that the issuing domain's certification scope covers the receiving
+      domain's requirements.
+
+7.1.1.3.3.  Delegation Attacks Across Domains
+
+   Cross-Domain Privilege Amplification  In multi-hop delegation (A to B
+      to C) where agents belong to different domains, downstream agents
+      in permissive domains accumulate effective permissions that exceed
+      what the originating principal intended.
+
+   Accountability Chain Breakage  Delegation chains that cross domain
+      boundaries lose forensic continuity.  When incidents occur,
+      attribution cannot be reconstructed because each domain only has
+      partial visibility.
+
+   Confused Deputy Across Trust Boundaries  An attacker in Domain A
+      tricks a trusted agent in Domain B into performing actions on
+      their behalf that the attacker couldn't perform
+      directly—exploiting the cross-domain trust relationship.  See
+      [Hardy1988].
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 24]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+7.1.1.3.4.  Cross-Domain Lateral Movement
+
+   Using legitimate cross-domain authorization to pivot from a
+   compromised position in Domain A to resources in Domain B that would
+   not otherwise be accessible.  An attacker compromises a low-privilege
+   agent in Domain A.  That agent has cross-domain authorization to
+   Domain B.  The attacker uses the agent's credentials to establish a
+   foothold in Domain B, then escalates within Domain B.
+
+7.1.1.3.5.  Correlation and Privacy Attacks
+
+   Linking agent activities across domains using stable identifiers in
+   VCs to build profiles of organizational operations, potentially
+   revealing sensitive business processes or security postures.
+
+   Cross-domain amplification: In single-domain scenarios, the domain
+   controls what's logged.  In cross-domain scenarios, each domain
+   receiving the VC can correlate independently, and the agent's home
+   domain cannot prevent this.
+
+7.1.1.4.  Trust Establishment Between Domains
+
+7.1.1.4.1.  Domain Trust Lists
+
+   Before accepting VCs from another domain, an Authorization Server
+   MUST verify that the issuing domain is in an explicitly configured
+   trust list.  Implementations MUST NOT implicitly trust domains based
+   solely on successful cryptographic verification of the VC.
+
+   Trust list entries SHOULD include:
+
+   *  Domain identifier (issuerDomain claim value)
+
+   *  Accepted VC types from that domain
+
+   *  Scope of trust (which local resources may be accessed)
+
+   *  Expiration or review date for the trust relationship
+
+7.1.1.4.2.  Cross-Domain Policy Mapping
+
+   Implementations MUST NOT assume semantic equivalence of claims across
+   domains.  Before accepting a VC from another domain, the AS SHOULD
+   verify:
+
+   1.  Explicit mapping exists between the foreign domain's claim
+       semantics and local policy requirements
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 25]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   2.  Compliance attestations in the VC meet local regulatory
+       requirements (not just the issuing domain's)
+
+   3.  Scope values have been mapped to local authorization semantics
+
+7.1.1.4.3.  Trust Relationship Lifecycle
+
+   Cross-domain trust relationships MUST have defined lifecycles:
+
+   *  Periodic review and re-validation
+
+   *  Documented procedures for trust relationship termination
+
+   *  Immediate revocation capability when a trusted domain is
+      compromised
+
+   *  Notification mechanisms between domains for security events
+
+7.1.1.5.  Metadata Endpoint Security for Cross-Domain Trust
+
+   Because the client-id metadata endpoint is the sole trust anchor for
+   cross-domain agent identity, it requires enhanced protection beyond
+   typical endpoint security.
+
+7.1.1.5.1.  Endpoint Integrity Beyond Transport
+
+   Metadata documents SHOULD be signed independently of the transport
+   layer, allowing verification even if TLS is compromised or if the
+   document is cached by intermediaries.
+
+7.1.1.5.2.  Change Detection for Cached Metadata
+
+   Authorization Servers SHOULD:
+
+   *  Cache fetched metadata documents with appropriate TTLs
+
+   *  Detect and alert on unexpected changes to critical fields
+      (jwks_uri, vc+jwt, token_endpoint_auth_method)
+
+   *  Implement anomaly detection for metadata that changes more
+      frequently than expected
+
+7.1.1.5.3.  Cross-Domain Availability Dependencies
+
+   When metadata endpoints are unavailable, cross-domain authorization
+   fails.  Implementations SHOULD:
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 26]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+   *  Cache validated metadata with TTLs appropriate to the sensitivity
+      of protected resources
+
+   *  Implement circuit breakers to prevent cascading failures
+
+   *  Define graceful degradation policies
+
+7.1.1.6.  Delegation Security Across Domain Boundaries
+
+7.1.1.6.1.  Domain Boundary Checkpoints
+
+   When a delegation chain crosses a domain boundary, the receiving
+   domain's AS MUST:
+
+   *  Fully verify the upstream delegation chain before accepting
+
+   *  Apply local policy to the delegation
+
+   *  Log the domain boundary crossing for audit purposes
+
+7.1.1.6.2.  Monotonic Scope Narrowing Across Domains
+
+   Implementations MUST enforce that effective scope can only decrease
+   (or remain the same) at each delegation step, including when crossing
+   domain boundaries.  The receiving domain MUST apply its local policy
+   as an additional constraint on effective scope.
+
+7.1.1.6.3.  Accountability Chain Preservation
+
+   Delegation chains spanning domains MUST maintain cryptographically
+   verifiable accountability.  Each domain SHOULD:
+
+   *  Preserve the incoming delegation chain in its audit logs
+
+   *  Add its own delegation record when extending the chain
+
+   *  Provide APIs for authorized forensic queries from upstream domains
+
+7.1.1.7.  Privacy Considerations for Cross-Domain Sharing
+
+7.1.1.7.1.  Selective Disclosure for Cross-Domain Presentations
+
+   Agents presenting VCs across domain boundaries SHOULD use selective
+   disclosure mechanisms (SD-JWT VC, BBS+ signatures) to reveal only
+   claims necessary for the specific cross-domain authorization request.
+
+
+
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 27]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
+7.1.1.7.2.  Correlation Risk Assessment
+
+   Organizations SHOULD assess cross-domain correlation risks before
+   establishing trust relationships, including whether agent identifiers
+   enable activity tracking by foreign domains.
+
+7.2.  IANA Considerations
+
+   This document introduces a new OAuth client metadata parameter
+   "vc+jwt" as described in the Solution Analysis section (Approach 4).
+   If this approach is standardized, the following registration would be
+   required:
+
+   *  *Registry:* IANA [`OAuth Dynamic Client Registration
+      Metadata`](https://www.iana.org/assignments/oauth-parameters/
+      oauth-parameters.xhtml#client-metadata) registry
+
+   *  *Client Metadata Name:* vc+jwt
+
+   *  *Client Metadata Description:* JWT-encoded Verifiable Credential
+
+   *  *Change Controller:* TBD
+
+   *  *Reference:* https://www.w3.org/TR/vc-data-model-2.0
+
+   This informational document does not make a formal request for IANA
+   registration at this time.  Registration would be appropriate if this
+   approach is adopted and progresses to a standards track
+   specification.
+
+8.  References
+
+8.1.  Informative References
 
    [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
               P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
@@ -759,9 +1562,30 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
               Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0 Client
               Identity Metadata Document", 2025.
 
+
+
+
+Diaconu, et al.           Expires 1 August 2026                [Page 28]
+
+Internet-Draft          AuthZ Sharing for Agents            January 2026
+
+
    [W3C.VCDM2.0]
               W3C, "Verifiable Credentials Data Model v2.0", 2024,
               <https://www.w3.org/TR/vc-data-model-2.0/>.
+
+   [RFC6819]  Lodderstedt, T., Ed., McGloin, M., and P. Hunt, "OAuth 2.0
+              Threat Model and Security Considerations", January 2013,
+              <https://www.rfc-editor.org/info/rfc6819>.
+
+   [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Bradley, J., and C.
+              Mortimore, "OAuth 2.0 Token Exchange", January 2020,
+              <https://www.rfc-editor.org/info/rfc8693>.
+
+   [Hardy1988]
+              Hardy, N., "The Confused Deputy: (or why capabilities
+              might have been invented)", ACM SIGOPS Operating Systems
+              Review Volume 22, Issue 4, 1988.
 
 Authors' Addresses
 
@@ -778,14 +1602,6 @@ Authors' Addresses
 
 
    Frank Brockners
-
-
-
-Diaconu, et al.           Expires 20 July 2025                 [Page 14]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2025
-
-
    Email: fbrockne@cisco.com
 
 
@@ -805,36 +1621,4 @@ Internet-Draft          AuthZ Sharing for Agents            January 2025
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 20 July 2025                 [Page 15]
+Diaconu, et al.           Expires 1 August 2026                [Page 29]
