@@ -1178,5 +1178,12 @@ Effective_Scope(B) = A.delegatable_scope
         </reference>
       </references>
     </references>
+    <section anchor="contributors" numbered="false">
+      <name>Contributors</name>
+      <contact fullname="Ankit Agarwal" initials="A." surname="Agarwal">
+        <organization>Skyfire</organization>
+        <email>ankit@skyfire.xyz</email>
+      </contact>
+    </section>
   </back>
 </rfc>
