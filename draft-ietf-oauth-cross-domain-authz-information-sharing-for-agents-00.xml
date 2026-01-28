@@ -845,18 +845,6 @@ Effective_Scope(B) = A.delegatable_scope
                 <t>Note: The actual credential would include a "proof" section with cryptographic signatures. The proof section is omitted here for clarity, as it would add significant length to the example. The proof structure varies depending on the signature suite used (e.g., Ed25519Signature2020, JsonWebSignature2020).</t>
             </section>
         </section>
-        <section anchor="IANA">
-            <name>IANA Considerations</name>
-            <t>This document introduces a new OAuth client metadata parameter "vc+jwt" as described in the Solution Analysis section (Approach 4). If this approach is standardized, the following registration would be required:</t>
-            <ul>
-                <li><strong>Registry:</strong> IANA [`OAuth Dynamic Client Registration Metadata`](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#client-metadata) registry</li>
-                <li><strong>Client Metadata Name:</strong> vc+jwt</li>
-                <li><strong>Client Metadata Description:</strong> JWT-encoded Verifiable Credential</li>
-                <li><strong>Change Controller:</strong> TBD</li>
-                <li><strong>Reference:</strong> https://www.w3.org/TR/vc-data-model-2.0</li>
-            </ul>
-            <t>This informational document does not make a formal request for IANA registration at this time. Registration would be appropriate if this approach is adopted and progresses to a standards track specification.</t>
-        </section>
         <section anchor="security">
             <name>Security Considerations</name>
             <section anchor="security-considerations" numbered="true" toc="default">
@@ -1102,6 +1090,18 @@ Effective_Scope(B) = A.delegatable_scope
                     </section>
                 </section>
             </section>
+        </section>
+        <section anchor="IANA">
+            <name>IANA Considerations</name>
+            <t>This document introduces a new OAuth client metadata parameter "vc+jwt" as described in the Solution Analysis section (Approach 4). If this approach is standardized, the following registration would be required:</t>
+            <ul>
+                <li><strong>Registry:</strong> IANA [`OAuth Dynamic Client Registration Metadata`](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#client-metadata) registry</li>
+                <li><strong>Client Metadata Name:</strong> vc+jwt</li>
+                <li><strong>Client Metadata Description:</strong> JWT-encoded Verifiable Credential</li>
+                <li><strong>Change Controller:</strong> TBD</li>
+                <li><strong>Reference:</strong> https://www.w3.org/TR/vc-data-model-2.0</li>
+            </ul>
+            <t>This informational document does not make a formal request for IANA registration at this time. Registration would be appropriate if this approach is adopted and progresses to a standards track specification.</t>
         </section>
         </section>
     </middle>
