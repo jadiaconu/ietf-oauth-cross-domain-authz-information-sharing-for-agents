@@ -10,6 +10,7 @@ This repository contains an Internet-Draft proposing a novel approach for sharin
 - **Category**: Informational
 - **Workgroup**: OAuth (proposed)
 - **Status**: Individual Draft (Version 00)
+- **Current State**: Iteration 1 Review Complete - Ready for V1 Improvements
 
 ## Key Innovation
 
@@ -97,6 +98,7 @@ xml2rfc draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00.xm
    ```
 
 3. **Open in browser**
+
    ```bash
    open draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00.html
    ```
@@ -104,41 +106,19 @@ xml2rfc draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00.xm
 ## Document Structure
 
 1. **Introduction** - Problem statement for cross-domain agent authorization
-2. **Definitions** - Key terms (Agent, MCP Server, AS, IdP, Claims, Domain)
-3. **Problem Statement** - Architecture and challenges visualization
-4. **Use Cases** - Predictive threat detection, automated compliance
-5. **Requirements** - 6 core requirements for solutions
-6. **Solution Analysis** - Comparison of 4 approaches:
+2. **Definitions** - Key terms (Agent, MCP Server, AS, IdP, Claims, Domain, VC, VCDM, etc.)
+3. **Use Cases** - Five scenarios demonstrating cross-domain challenges
+4. **Requirements Summary** - 6 core requirements for solutions
+5. **Solution Analysis** - Comparison of 4 approaches:
    - RFC 7591 Dynamic Client Registration
    - SCIM Extensions
    - Client-ID Metadata
-   - **Client-ID Metadata + W3C VC** (proposed)
-7. **Examples** - Concrete metadata and VC examples
-8. **IANA/Security Considerations**
-
-## Known Issues (Version 00)
-
-⚠️ **This is an early draft with known gaps** (see detailed analysis in README.md):
-
-### Critical
-
-- [ ] Document naming inconsistency (`draft-vc-client-id-metadata-00` vs intended name)
-- [ ] Missing formal `vc+jwt` claim specification
-- [ ] Incomplete security threat model
-- [ ] No DID resolution requirements
-
-### Important
-
-- [ ] Missing error response formats
-- [ ] No AS discovery mechanism defined
-- [ ] IANA registration needed for new parameters
-- [ ] Examples contain typos (XYZ vs XYX)
-
-### Editorial
-
-- [ ] Missing RFC 2119 boilerplate for normative keywords
-- [ ] Inconsistent MCP terminology usage
-- [ ] Incomplete reference list (missing DID-CORE, StatusList2021)
+   - **Client-ID Metadata + W3C VC** (recommended approach)
+6. **Delegation Semantics** - Multi-hop delegation with scope derivation
+7. **Agent Authorization VC Profile** - Interoperability profile for cross-domain VCs
+8. **Examples** - Concrete metadata and VC examples
+9. **Security Considerations** - Comprehensive threat model for cross-domain scenarios
+10. **IANA Considerations**
 
 ## Contributing
 
@@ -157,24 +137,17 @@ When submitting feedback, please:
 3. Identify whether issue is editorial or technical
 4. Consider requirements impact (see Section 5)
 
-## Technical Analysis
-
-A comprehensive technical analysis is included in this README, covering:
-
-- **Strengths**: Problem clarity, systematic comparison, innovative approach
-- **Critical Issues**: 7 major technical gaps
-- **Recommendations**: Specific fixes and enhancements
-- **Priority Actions**: High/Medium/Low categorization
-
-See full analysis above for details.
-
 ## Authors
 
-- Jean Diaconu (jdiaconu@cisco.com)
-- Marcelo Yannuzzi (mayannuz@cisco.com)
-- Herve Muyal (hmuyal@cisco.com)
-- Frank Brockners (fbrockne@cisco.com)
-- Nik Kale (nikkal@cisco.com)
+- Jean Diaconu (<jdiaconu@cisco.com>)
+- Marcelo Yannuzzi (<mayannuz@cisco.com>)
+- Herve Muyal (<hmuyal@cisco.com>)
+- Frank Brockners (<fbrockne@cisco.com>)
+- Nik Kale (<nikkal@cisco.com>)
+
+## Contributors
+
+- Ankit Agarwal (<ankit@skyfire.xyz>)
 
 ## Related Standards
 
