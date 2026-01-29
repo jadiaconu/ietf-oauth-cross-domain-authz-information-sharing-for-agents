@@ -6,7 +6,7 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-vc-client-id-metadata-00" ipr="trust200902" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00" ipr="trust200902" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title abbrev="AuthZ Sharing for Agents">Cross-Domain AuthZ Information sharing for Agents</title>
     <seriesInfo name="Internet-Draft" value="draft-vc-client-id-metadata-00"/>
@@ -79,6 +79,15 @@
             establishes requirements and evaluates solution approaches. 
             <xref target="security-considerations"/> covers security considerations.</t>
     </section>
+    <section anchor="conventions" title="Conventions Used in This Document">
+      <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY",
+        and "OPTIONAL" in this document are to be interpreted as described
+        in <xref target="RFC2119"/> and <xref target="RFC8174"/> when, and
+        only when, they appear in all capitals, as shown here.
+    </t>
+    </section>
     <section anchor="definitions">
       <name>Abbreviations / Definitions</name>
       <dl>
@@ -96,6 +105,14 @@
         <dd>Essentially a piece of information asserted about a subject.</dd>
         <dt>Domain</dt>
         <dd>Scope over which a specific, uniform set of security policies and user management rules are enforced.</dd>
+        <dt>VCDM 2.0</dt>
+        <dd>Verifiable Credentials Data Model 2.0, a W3C standard for expressing verifiable credentials on the web.</dd>
+        <dt>VC</dt>
+        <dd>Verifiable Credential, a digital credential that is cryptographically secure and can be verified independently.</dd>
+        <dt>SD-JWT</dt>
+        <dd>Selective Disclosure JSON Web Token, a JWT that allows the holder to disclose only specific parts of the token.</dd>
+        <dt>DID</dt>
+        <dd>Decentralized Identifier, a new type of identifier that enables verifiable, self-sovereign digital identities.</dd>
       </dl>
     </section>
     <section anchor="use-cases">
@@ -207,7 +224,7 @@
       <ul>
         <li><strong>Dynamic Identity for Agents and MCP Servers:</strong> The Agents and MCP Servers can onboard dynamically and get an assigned identity in the IdP.</li>
         <li><strong>Interoperability Across Domains:</strong> The system must enable seamless interaction between Agents across different domains.</li>
-        <li><strong>Flexible Definition of Claims:</strong> Claims should be adaptable as they may vary from organization to organization.</li>
+        <li><strong>Flexible Definition of Claims:</strong> Claims should be adaptable as they may vary from organization to organization. They may include information related to authorization, compliance requirements, chains of delegation, and other domain-specific concerns.</li>
         <li><strong>Dynamic Management of Authorization Information:</strong> The system must allow creation, removal, updating, and deletion of authorization information for agents, as agents can be highly dynamic.</li>
         <li><strong>Security and Privacy:</strong> Ensuring secure and private sharing of authorization information across domains.</li>
         <li><strong>Compliance and Auditability:</strong> Support for compliance with regulatory standards and auditability of authorization exchanges.</li>
@@ -1175,6 +1192,22 @@ Effective_Scope(B) = A.delegatable_scope
             <date year="1988"/>
           </front>
           <seriesInfo name="ACM SIGOPS Operating Systems Review" value="Volume 22, Issue 4"/>
+        </reference>
+        <reference anchor="RFC2119">
+          <front>
+            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+            <author surname="Bradner" initials="S."/>
+            <date year="1997"/>
+          </front>
+          <seriesInfo name="RFC" value="2119"/>
+        </reference>
+        <reference anchor="RFC8174">
+          <front>
+            <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+            <author surname="Leiba" initials="B."/>
+            <date year="2017"/>
+          </front>
+          <seriesInfo name="RFC" value="8174"/>
         </reference>
       </references>
     </references>
