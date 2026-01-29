@@ -7,7 +7,7 @@ This repository contains an Internet-Draft proposing a novel approach for sharin
 ## Document Information
 
 - **Draft Name**: `draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00`
-- **Latest Version**: `[draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00](generated/00/draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00.txt)`
+- **Latest Version**: [draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00](generated/00/draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00.txt)
 - **Category**: Informational
 - **Workgroup**: OAuth (proposed)
 - **Status**: Individual Draft (Version 00)
