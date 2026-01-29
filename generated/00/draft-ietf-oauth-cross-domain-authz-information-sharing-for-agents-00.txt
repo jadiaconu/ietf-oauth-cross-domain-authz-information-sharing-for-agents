@@ -4,7 +4,7 @@
 
 Internet Engineering Task Force                               J. Diaconu
 Internet-Draft                                                          
-Intended status: Informational                               M. Yannuzzi
+Intended status: Standards Track                             M. Yannuzzi
 Expires: 2 August 2026                                                  
                                                                 H. Muyal
                                                                         
