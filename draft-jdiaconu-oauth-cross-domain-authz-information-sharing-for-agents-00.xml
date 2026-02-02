@@ -1091,10 +1091,10 @@ Effective_Scope(B) = A.delegatable_scope
                 <li>Apply local policy to the delegation</li>
                 <li>Log the domain boundary crossing for audit purposes</li>
               </ul>
-	     <t>Receiving domains SHOULD consider the status of delegated credentials and, where 
+              <t>Receiving domains SHOULD consider the status of delegated credentials and, where 
 		status information is available, avoid making authorization decisions that rely 
 		on revoked,suspended, or suspended delegation chain elements, according to local policy.</t>
-	     <t>Deployments concerned with stale delgations MAY apply bounded caching and periodic
+              <t>Deployments concerned with stale delgations MAY apply bounded caching and periodic
 		revalidation of delegation status appropriate to the sensitivity of protected resources.</t>
             </section>
             <section anchor="scope-narrowing" numbered="true" toc="default">
@@ -1245,6 +1245,9 @@ Effective_Scope(B) = A.delegatable_scope
       <name>Contributors</name>
       <contact fullname="Ankit Agarwal" initials="A." surname="Agarwal">
         <organization>Skyfire</organization>
+      </contact>
+      <contact fullname="Jeffrey Hickman" initials="J." surname="Hickman">
+        <organization>Ory</organization>
       </contact>
       <contact fullname="Amritha Lal" initials="A." surname="Lal">
         <organization>AWS</organization>
