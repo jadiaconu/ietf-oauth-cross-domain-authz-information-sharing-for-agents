@@ -169,7 +169,10 @@
                     in Domains Y and Z. Each receiving domain must verify the delegation 
                     chain, ensure the delegated scope does not exceed what the originating 
                     principal authorized, and maintain an auditable record of the 
-                    delegation chain.</dd>
+                    delegation chain.
+		Receiving domains must ensure that the authorization decisions do not 
+		rely on revoked, suspended, or superseded delegations by performing
+		runtime delegation chain verification according to the local policy.</dd>
           <dt>Requirements</dt>
           <dd>Multi-hop delegation with scope narrowing, cross-domain 
                         accountability chains, privacy-preserving identity claims, 
@@ -557,7 +560,10 @@ Effective_Scope(B) = A.delegatable_scope
           <section anchor="accountability-chain" numbered="true" toc="default">
             <name>Accountability Chain Construction</name>
             <t>Each delegation step MUST produce a verifiable record enabling 
-                        cross-domain forensic reconstruction. The delegation record MUST include:</t>
+                        cross-domain forensic reconstruction.To support revocation and 
+			scope-change handling, delegation records SHOULD enable downstream verifiers
+			to identify and validate upstream delegation elements so that authorization decisions
+			do not depend on revoked or superseded delegation claims.  The delegation record MUST include:</t>
             <table anchor="delegation-record-fields">
               <name>Delegation Record Fields</name>
               <thead>
@@ -837,6 +843,25 @@ Effective_Scope(B) = A.delegatable_scope
       "ticket-creation",
       "customer-notification"
     ],
+    "delegatedCredentials":[
+      {
+	"id": "https://agents.partner.com/agent-111/metadata.json",
+     	"agentName":"Sec Agent 111",
+	"delegatedBy":"https://agents.example.com/agent-001/metadata.json",
+	"delegationChain": [
+		"urn:uuid:*****",
+		"urn:uuid:***"
+    	],
+	"scope": "read:sec-remediate:isolations",
+	"authorizedCapabilities": [
+		"enrichment",
+		"isolation-request"
+    	],
+    "constraints": {
+      "dpopNonceRequired": true
+	}
+      }
+    ],
     "complianceFrameworks": ["SOC2-TypeII", "ISO-27001"],
     "delegationLevel": 1,
     "maxDelegationDepth": 2
@@ -1066,6 +1091,11 @@ Effective_Scope(B) = A.delegatable_scope
                 <li>Apply local policy to the delegation</li>
                 <li>Log the domain boundary crossing for audit purposes</li>
               </ul>
+	     <t>Receiving domains SHOULD consider the status of delegated credentials and, where 
+		status information is available, avoid making authorization decisions that rely 
+		on revoked,suspended, or suspended delegation chain elements, according to local policy.</t>
+	     <t>Deployments concerned with stale delgations MAY apply bounded caching and periodic
+		revalidation of delegation status appropriate to the sensitivity of protected resources.</t>
             </section>
             <section anchor="scope-narrowing" numbered="true" toc="default">
               <name>Monotonic Scope Narrowing Across Domains</name>
@@ -1215,6 +1245,9 @@ Effective_Scope(B) = A.delegatable_scope
       <name>Contributors</name>
       <contact fullname="Ankit Agarwal" initials="A." surname="Agarwal">
         <organization>Skyfire</organization>
+      </contact>
+      <contact fullname="Amritha Lal" initials="A." surname="Lal">
+        <organization>AWS</organization>
       </contact>
     </section>
   </back>

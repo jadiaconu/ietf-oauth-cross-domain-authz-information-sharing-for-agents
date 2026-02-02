@@ -5,13 +5,13 @@
 Internet Engineering Task Force                               J. Diaconu
 Internet-Draft                                                          
 Intended status: Standards Track                             M. Yannuzzi
-Expires: 2 August 2026                                                  
+Expires: 6 August 2026                                                  
                                                                 H. Muyal
                                                                         
                                                             F. Brockners
                                                                         
                                                                  N. Kale
-                                                         29 January 2026
+                                                         2 February 2026
 
 
            Cross-Domain AuthZ Information sharing for Agents
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 August 2026.
+   This Internet-Draft will expire on 6 August 2026.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 1]
+Diaconu, et al.           Expires 6 August 2026                 [Page 1]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -89,18 +89,18 @@ Table of Contents
        6.4.1.  Delegation Semantics for Cross-Domain Multi-Agent
                Workflows . . . . . . . . . . . . . . . . . . . . . .  13
        6.4.2.  Agent Authorization Verifiable Credential Profile . .  18
-   7.  Example . . . . . . . . . . . . . . . . . . . . . . . . . . .  20
-     7.1.  Client-ID Metadata Example  . . . . . . . . . . . . . . .  20
+   7.  Example . . . . . . . . . . . . . . . . . . . . . . . . . . .  21
+     7.1.  Client-ID Metadata Example  . . . . . . . . . . . . . . .  21
      7.2.  Verifiable Credential Example . . . . . . . . . . . . . .  21
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  22
-     8.1.  Security Considerations . . . . . . . . . . . . . . . . .  22
+     8.1.  Security Considerations . . . . . . . . . . . . . . . . .  23
        8.1.1.  Threat Model for Cross-Domain Authorization
                Sharing . . . . . . . . . . . . . . . . . . . . . . .  23
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  28
    10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
      10.1.  Informative References . . . . . . . . . . . . . . . . .  28
    Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
 
 
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 2]
+Diaconu, et al.           Expires 6 August 2026                 [Page 2]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 1.  Introduction
@@ -165,9 +165,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 3]
+Diaconu, et al.           Expires 6 August 2026                 [Page 3]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 2.  Conventions Used in This Document
@@ -221,9 +221,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 4]
+Diaconu, et al.           Expires 6 August 2026                 [Page 4]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 4.1.  Cross-Domain Tool Invocation
@@ -277,15 +277,19 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 5]
+Diaconu, et al.           Expires 6 August 2026                 [Page 5]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
       authority to agents in Domains Y and Z.  Each receiving domain
       must verify the delegation chain, ensure the delegated scope does
       not exceed what the originating principal authorized, and maintain
-      an auditable record of the delegation chain.
+      an auditable record of the delegation chain.  Receiving domains
+      must ensure that the authorization decisions do not rely on
+      revoked, suspended, or superseded delegations by performing
+      runtime delegation chain verification according to the local
+      policy.
 
    Requirements  Multi-hop delegation with scope narrowing, cross-domain
       accountability chains, privacy-preserving identity claims, and
@@ -326,17 +330,17 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       this satisfies its own data handling requirements without assuming
       equivalence of compliance frameworks.
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                 [Page 6]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
    Requirements  Verifiable compliance attestations that receiving
       domains can evaluate against local policies, and data sensitivity
       clearance, verification across regulatory boundaries.
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                 [Page 6]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
 5.  Requirements Summary
 
@@ -385,13 +389,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                 [Page 7]
+Diaconu, et al.           Expires 6 August 2026                 [Page 7]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    +==================+===============================+================+
@@ -445,9 +445,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 8]
+Diaconu, et al.           Expires 6 August 2026                 [Page 8]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    *Discussion:*
@@ -501,9 +501,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                 [Page 9]
+Diaconu, et al.           Expires 6 August 2026                 [Page 9]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    +==================+==========================+=====================+
@@ -557,9 +557,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                [Page 10]
+Diaconu, et al.           Expires 6 August 2026                [Page 10]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    ***Security and Privacy, Compliance and Auditability:* All metadata
@@ -613,9 +613,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                [Page 11]
+Diaconu, et al.           Expires 6 August 2026                [Page 11]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
       +===========================+======================+=========+
@@ -669,9 +669,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                [Page 12]
+Diaconu, et al.           Expires 6 August 2026                [Page 12]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    The Verifiable Credentials Data Model 2.0 is a W3C standard that fits
@@ -725,9 +725,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                [Page 13]
+Diaconu, et al.           Expires 6 August 2026                [Page 13]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    Humans rarely delegate authority through multiple levels across
@@ -781,9 +781,9 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-Diaconu, et al.           Expires 2 August 2026                [Page 14]
+Diaconu, et al.           Expires 6 August 2026                [Page 14]
 
-Internet-Draft          AuthZ Sharing for Agents            January 2026
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 6.4.1.2.  Scope Derivation Rules
@@ -829,18 +829,27 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    Macaroons, Biscuit authorization tokens) and extends [RFC8693] Token
    Exchange delegation semantics to cross-domain VC-based scenarios.
 
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 15]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 6.4.1.3.  Accountability Chain Construction
 
    Each delegation step MUST produce a verifiable record enabling cross-
-   domain forensic reconstruction.  The delegation record MUST include:
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 15]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
+   domain forensic reconstruction.To support revocation and scope-change
+   handling, delegation records SHOULD enable downstream verifiers to
+   identify and validate upstream delegation elements so that
+   authorization decisions do not depend on revoked or superseded
+   delegation claims.  The delegation record MUST include:
 
     +==================+=================+===========================+
     | Field            | Description     | Cross-Domain Relevance    |
@@ -881,6 +890,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    2.  Forensic reconstruction: Rebuilding the sequence of delegations
        across domain boundaries
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 16]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
    3.  Coordinated revocation: Identifying downstream delegations in
        other domains that must be invalidated
 
@@ -889,14 +906,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    Implementations SHOULD enforce maximum delegation depth.  Cross-
    domain delegations SHOULD count toward depth limits regardless of
    whether they're same-domain or cross-domain.
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 16]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    Receiving domains MAY impose stricter depth limits than the
    originating domain.  When a delegation would exceed the receiving
@@ -937,6 +946,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       may initiate.  Default: 0.
 
    delegation.crossDomainDelegation.permitted  Whether cross-domain
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 17]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
       delegation is allowed at all.
 
    delegation.crossDomainDelegation.allowedDomains  Domains to which
@@ -945,14 +962,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    delegation.scopeRestrictions.crossDomainNonDelegatable  Scopes that
       may be delegated within the same domain but MUST NOT be delegated
       across domain boundaries.
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 17]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
 6.4.2.  Agent Authorization Verifiable Credential Profile
 
@@ -993,6 +1002,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       use this to apply type-specific policies.  Implementations MUST
       support:
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 18]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
       *  tool-agent: Provides specific tool/skill capabilities
 
       *  orchestrator-agent: Coordinates other agents
@@ -1002,13 +1019,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       *  system-agent: Long-running infrastructure agent
 
       *  ephemeral-agent: Short-lived, single-task
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 18]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    authorizedScopes (required)  Authorization scopes this agent may
       request.  Receiving domains map these to local authorization
@@ -1045,6 +1055,17 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    delegation (recommended)  Delegation permissions as defined in
       Section 6.4.1.5.
 
+
+
+
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 19]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 6.4.2.4.  Extension Mechanism
 
    Organizations MAY extend the profile with additional claims by:
@@ -1058,13 +1079,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    Implementations receiving VCs with unrecognized claims SHOULD:
 
    *  Ignore unknown claims (do not reject the VC)
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 19]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    *  Log unrecognized claims for operational visibility
 
@@ -1100,6 +1114,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    *  Implement additional validation beyond profile requirements
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 20]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 7.  Example
 
    This section provides illustrative examples of how Client-ID Metadata
@@ -1113,14 +1135,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    The following example shows OAuth client metadata that includes a
    Verifiable Credential in the "vc+jwt" field:
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 20]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    {
      "client_id": "https://agents.example.com/agent-001/metadata.json",
@@ -1141,43 +1155,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    The following example shows the decoded structure of a Verifiable
    Credential for an agent (before JWT encoding):
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 21]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
-
    {
      "@context": [
        "https://www.w3.org/2018/credentials/v1",
@@ -1193,10 +1170,37 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
        "agentVersion": "2.1.0",
        "agentType": "customer-service",
        "owner": "did:web:example.com",
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 21]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
        "authorizedCapabilities": [
          "order-lookup",
          "ticket-creation",
          "customer-notification"
+       ],
+       "delegatedCredentials":[
+         {
+           "id": "https://agents.partner.com/agent-111/metadata.json",
+           "agentName":"Sec Agent 111",
+           "delegatedBy":"https://agents.example.com/agent-001/metadata.json",
+           "delegationChain": [
+                   "urn:uuid:*****",
+                   "urn:uuid:***"
+           ],
+           "scope": "read:sec-remediate:isolations",
+           "authorizedCapabilities": [
+                   "enrichment",
+                   "isolation-request"
+           ],
+       "constraints": {
+         "dpopNonceRequired": true
+           }
+         }
        ],
        "complianceFrameworks": ["SOC2-TypeII", "ISO-27001"],
        "delegationLevel": 1,
@@ -1219,20 +1223,23 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 8.  Security Considerations
 
+
+
+
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 22]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 8.1.  Security Considerations
 
    This section addresses security considerations specific to cross-
    domain authorization information sharing.  Implementations MUST also
    follow security guidance in [RFC6819], [W3C.VCDM2.0], and
    [I-D.ietf-oauth-client-id-metadata-document].
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 22]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
 8.1.1.  Threat Model for Cross-Domain Authorization Sharing
 
@@ -1275,6 +1282,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 8.1.1.3.  Cross-Domain Attack Categories
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 23]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 8.1.1.3.1.  Trust Anchor Attacks
 
    Metadata Endpoint Compromise  An attacker gains control of the URL
@@ -1282,13 +1297,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       malicious metadata or VCs.  Because the metadata URL is the trust
       anchor for cross-domain identity, compromise enables complete
       identity takeover across all trusting domains.
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 23]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
       Cross-domain amplification: In single-domain scenarios, the AS
       typically has out-of-band trust with clients.  In cross-domain
@@ -1330,21 +1338,18 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
       partial visibility.
 
    Confused Deputy Across Trust Boundaries  An attacker in Domain A
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 24]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
       tricks a trusted agent in Domain B into performing actions on
       their behalf that the attacker couldn't perform
       directly—exploiting the cross-domain trust relationship.  See
       [Hardy1988].
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 24]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
 8.1.1.3.4.  Cross-Domain Lateral Movement
 
@@ -1385,6 +1390,18 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    *  Expiration or review date for the trust relationship
 
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 25]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 8.1.1.4.2.  Cross-Domain Policy Mapping
 
    Implementations MUST NOT assume semantic equivalence of claims across
@@ -1393,14 +1410,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    1.  Explicit mapping exists between the foreign domain's claim
        semantics and local policy requirements
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 25]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    2.  Compliance attestations in the VC meet local regulatory
        requirements (not just the issuing domain's)
@@ -1441,6 +1450,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    *  Detect and alert on unexpected changes to critical fields
       (jwks_uri, vc+jwt, token_endpoint_auth_method)
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 26]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
    *  Implement anomaly detection for metadata that changes more
       frequently than expected
 
@@ -1448,15 +1465,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    When metadata endpoints are unavailable, cross-domain authorization
    fails.  Implementations SHOULD:
-
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 26]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    *  Cache validated metadata with TTLs appropriate to the sensitivity
       of protected resources
@@ -1478,6 +1486,15 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    *  Log the domain boundary crossing for audit purposes
 
+   Receiving domains SHOULD consider the status of delegated credentials
+   and, where status information is available, avoid making
+   authorization decisions that rely on revoked,suspended, or suspended
+   delegation chain elements, according to local policy.
+
+   Deployments concerned with stale delgations MAY apply bounded caching
+   and periodic revalidation of delegation status appropriate to the
+   sensitivity of protected resources.
+
 8.1.1.6.2.  Monotonic Scope Narrowing Across Domains
 
    Implementations MUST enforce that effective scope can only decrease
@@ -1489,6 +1506,13 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
    Delegation chains spanning domains MUST maintain cryptographically
    verifiable accountability.  Each domain SHOULD:
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 27]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
 
    *  Preserve the incoming delegation chain in its audit logs
 
@@ -1503,16 +1527,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    Agents presenting VCs across domain boundaries SHOULD use selective
    disclosure mechanisms (SD-JWT VC, BBS+ signatures) to reveal only
    claims necessary for the specific cross-domain authorization request.
-
-
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 27]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
 8.1.1.7.2.  Correlation Risk Assessment
 
@@ -1548,6 +1562,14 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 10.1.  Informative References
 
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 28]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
    [RFC7591]  Richer, J., Ed., Jones, M., Bradley, J., Machulak, M., and
               P. Hunt, "OAuth 2.0 Dynamic Client Registration Protocol",
               July 2015, <https://www.rfc-editor.org/info/rfc7591>.
@@ -1561,14 +1583,6 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
    [I-D.ietf-oauth-client-id-metadata-document]
               Jones, M., Sakimura, N., and J. Bradley, "OAuth 2.0 Client
               Identity Metadata Document", 2025.
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 28]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
-
 
    [W3C.VCDM2.0]
               W3C, "Verifiable Credentials Data Model v2.0", 2024,
@@ -1601,6 +1615,17 @@ Contributors
    Skyfire
 
 
+   Amritha Lal
+   AWS
+
+
+
+
+Diaconu, et al.           Expires 6 August 2026                [Page 29]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
 Authors' Addresses
 
    Jean Diaconu
@@ -1617,13 +1642,6 @@ Authors' Addresses
 
    Frank Brockners
    Email: fbrockne@cisco.com
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 29]
-
-Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
    Nik Kale
@@ -1659,22 +1677,4 @@ Internet-Draft          AuthZ Sharing for Agents            January 2026
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 2 August 2026                [Page 30]
+Diaconu, et al.           Expires 6 August 2026                [Page 30]
