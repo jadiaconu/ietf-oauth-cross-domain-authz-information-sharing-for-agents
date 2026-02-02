@@ -1216,9 +1216,6 @@ Effective_Scope(B) = A.delegatable_scope
       <contact fullname="Ankit Agarwal" initials="A." surname="Agarwal">
         <organization>Skyfire</organization>
       </contact>
-      <contact fullname="Jeffrey Hickman" initials="J." surname="Hickman">
-        <organization>Ory</organization>
-      </contact>
       <contact fullname="Amritha Lal" initials="A." surname="Lal">
         <organization>AWS</organization>
       </contact>
