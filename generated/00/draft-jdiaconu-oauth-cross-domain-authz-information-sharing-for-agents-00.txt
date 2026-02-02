@@ -1615,8 +1615,8 @@ Contributors
    Skyfire
 
 
-   Amritha Lal
-   AWS
+   Jeffrey Hickman
+   Ory
 
 
 
@@ -1624,6 +1624,10 @@ Contributors
 Diaconu, et al.           Expires 6 August 2026                [Page 29]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
+   Amritha Lal
+   AWS
 
 
 Authors' Addresses
@@ -1646,10 +1650,6 @@ Authors' Addresses
 
    Nik Kale
    Email: nikkal@cisco.com
-
-
-
-
 
 
 
