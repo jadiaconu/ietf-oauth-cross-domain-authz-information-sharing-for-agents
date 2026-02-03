@@ -1670,7 +1670,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
    15169 N Scottsdale Rd Suite 205
    Scottsdale, AZ,  85254
    United States of America
-
+   Email: jeff.hickman@ory.com
 
 
 
