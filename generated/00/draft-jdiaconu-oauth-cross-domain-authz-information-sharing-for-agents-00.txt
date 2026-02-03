@@ -8,6 +8,12 @@ Intended status: Standards Track                                H. Muyal
 Expires: 7 August 2026                                      F. Brockners
                                                                  N. Kale
                                                                    Cisco
+                                                              A. Agarwal
+                                                                 Skyfire
+                                                              J. Hickman
+                                                                Ory Corp
+                                                                  A. Lal
+                                                                     AWS
                                                          3 February 2026
 
 
@@ -42,14 +48,8 @@ Status of This Memo
 
    This Internet-Draft will expire on 7 August 2026.
 
-Copyright Notice
 
-   Copyright (c) 2026 IETF Trust and the persons identified as the
-   document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents (https://trustee.ietf.org/
-   license-info) in effect on the date of publication of this document.
 
 
 
@@ -58,6 +58,14 @@ Diaconu, et al.           Expires 7 August 2026                 [Page 1]
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
    extracted from this document must include Revised BSD License text as
@@ -96,15 +104,7 @@ Table of Contents
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  28
    10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
      10.1.  Informative References . . . . . . . . . . . . . . . . .  28
-   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
-
-
-
-
-
-
-
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  29
 
 
 
@@ -1609,27 +1609,6 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
               2119 Key Words", RFC 8174, 2017,
               <https://www.rfc-editor.org/rfc/rfc8174>.
 
-Contributors
-
-   Ankit Agarwal
-   Skyfire
-
-
-   Jeffrey Hickman
-   Ory
-
-
-
-
-Diaconu, et al.           Expires 7 August 2026                [Page 29]
-
-Internet-Draft          AuthZ Sharing for Agents           February 2026
-
-
-   Amritha Lal
-   AWS
-
-
 Authors' Addresses
 
    Jean Diaconu
@@ -1638,6 +1617,13 @@ Authors' Addresses
    CH-1180 ROLLE
    Switzerland
    Email: jdiaconu@cisco.com
+
+
+
+
+Diaconu, et al.           Expires 7 August 2026                [Page 29]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
    Marcelo Yannuzzi
@@ -1672,9 +1658,79 @@ Authors' Addresses
    Email: nikkal@cisco.com
 
 
+   Ankit Agarwal
+   Skyfire, Inc.
+   Kentfield, CA,
+   United States of America
+   Email: ankit@skyfire.xyz
+
+
+   Jeffrey Hickman
+   Ory Corp, Inc.
+   15169 N Scottsdale Rd Suite 205
+   Scottsdale, AZ,  85254
+   United States of America
+
+
 
 
 
 
 
 Diaconu, et al.           Expires 7 August 2026                [Page 30]
+
+Internet-Draft          AuthZ Sharing for Agents           February 2026
+
+
+   Amritha Lal
+   Amazon Web Services
+   Seattle, WA,
+   United States of America
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Diaconu, et al.           Expires 7 August 2026                [Page 31]
