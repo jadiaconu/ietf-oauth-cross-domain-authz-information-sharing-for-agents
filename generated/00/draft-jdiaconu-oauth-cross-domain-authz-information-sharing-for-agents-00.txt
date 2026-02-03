@@ -3,15 +3,12 @@
 
 
 Internet Engineering Task Force                               J. Diaconu
-Internet-Draft                                                          
-Intended status: Standards Track                             M. Yannuzzi
-Expires: 6 August 2026                                                  
-                                                                H. Muyal
-                                                                        
-                                                            F. Brockners
-                                                                        
+Internet-Draft                                               M. Yannuzzi
+Intended status: Standards Track                                H. Muyal
+Expires: 7 August 2026                                      F. Brockners
                                                                  N. Kale
-                                                         2 February 2026
+                                                                   Cisco
+                                                         3 February 2026
 
 
            Cross-Domain AuthZ Information sharing for Agents
@@ -43,24 +40,24 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 August 2026.
+   This Internet-Draft will expire on 7 August 2026.
 
 Copyright Notice
 
    Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 1]
+Diaconu, et al.           Expires 7 August 2026                 [Page 1]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents (https://trustee.ietf.org/
-   license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
    extracted from this document must include Revised BSD License text as
@@ -109,7 +106,10 @@ Table of Contents
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 2]
+
+
+
+Diaconu, et al.           Expires 7 August 2026                 [Page 2]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -165,7 +165,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 3]
+Diaconu, et al.           Expires 7 August 2026                 [Page 3]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -221,7 +221,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 4]
+Diaconu, et al.           Expires 7 August 2026                 [Page 4]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -277,7 +277,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 5]
+Diaconu, et al.           Expires 7 August 2026                 [Page 5]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -333,7 +333,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 6]
+Diaconu, et al.           Expires 7 August 2026                 [Page 6]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -389,7 +389,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 7]
+Diaconu, et al.           Expires 7 August 2026                 [Page 7]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -445,7 +445,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 8]
+Diaconu, et al.           Expires 7 August 2026                 [Page 8]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -501,7 +501,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                 [Page 9]
+Diaconu, et al.           Expires 7 August 2026                 [Page 9]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -557,7 +557,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 10]
+Diaconu, et al.           Expires 7 August 2026                [Page 10]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -613,7 +613,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 11]
+Diaconu, et al.           Expires 7 August 2026                [Page 11]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -669,7 +669,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 12]
+Diaconu, et al.           Expires 7 August 2026                [Page 12]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -725,7 +725,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 13]
+Diaconu, et al.           Expires 7 August 2026                [Page 13]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -781,7 +781,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 14]
+Diaconu, et al.           Expires 7 August 2026                [Page 14]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -837,7 +837,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 15]
+Diaconu, et al.           Expires 7 August 2026                [Page 15]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -893,7 +893,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 16]
+Diaconu, et al.           Expires 7 August 2026                [Page 16]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -949,7 +949,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 17]
+Diaconu, et al.           Expires 7 August 2026                [Page 17]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1005,7 +1005,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 18]
+Diaconu, et al.           Expires 7 August 2026                [Page 18]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1061,7 +1061,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 19]
+Diaconu, et al.           Expires 7 August 2026                [Page 19]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1117,7 +1117,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 20]
+Diaconu, et al.           Expires 7 August 2026                [Page 20]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1173,7 +1173,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 21]
+Diaconu, et al.           Expires 7 August 2026                [Page 21]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1229,7 +1229,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 22]
+Diaconu, et al.           Expires 7 August 2026                [Page 22]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1285,7 +1285,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 23]
+Diaconu, et al.           Expires 7 August 2026                [Page 23]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1341,7 +1341,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 24]
+Diaconu, et al.           Expires 7 August 2026                [Page 24]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1397,7 +1397,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 25]
+Diaconu, et al.           Expires 7 August 2026                [Page 25]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1453,7 +1453,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 26]
+Diaconu, et al.           Expires 7 August 2026                [Page 26]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1509,7 +1509,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 27]
+Diaconu, et al.           Expires 7 August 2026                [Page 27]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1565,7 +1565,7 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 28]
+Diaconu, et al.           Expires 7 August 2026                [Page 28]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1621,7 +1621,7 @@ Contributors
 
 
 
-Diaconu, et al.           Expires 6 August 2026                [Page 29]
+Diaconu, et al.           Expires 7 August 2026                [Page 29]
 
 Internet-Draft          AuthZ Sharing for Agents           February 2026
 
@@ -1633,22 +1633,42 @@ Internet-Draft          AuthZ Sharing for Agents           February 2026
 Authors' Addresses
 
    Jean Diaconu
+   Cisco Systems, Inc.
+   Av. des Uttins 5
+   CH-1180 ROLLE
+   Switzerland
    Email: jdiaconu@cisco.com
 
 
    Marcelo Yannuzzi
+   Cisco Systems, Inc.
+   Av. des Uttins 5
+   CH-1180 ROLLE
+   Switzerland
    Email: mayannuz@cisco.com
 
 
    Herve Muyal
+   Cisco Systems, Inc.
+   Av. des Uttins 5
+   CH-1180 ROLLE
+   Switzerland
    Email: hmuyal@cisco.com
 
 
    Frank Brockners
+   Cisco Systems, Inc.
+   Hansaallee 249, 3rd Floor
+   40549 DUESSELDORF
+   Germany
    Email: fbrockne@cisco.com
 
 
    Nik Kale
+   Cisco Systems, Inc.
+   170 W Tasman Dr
+   SAN JOSE, CA,  95134
+   United States of America
    Email: nikkal@cisco.com
 
 
@@ -1657,24 +1677,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Diaconu, et al.           Expires 6 August 2026                [Page 30]
+Diaconu, et al.           Expires 7 August 2026                [Page 30]

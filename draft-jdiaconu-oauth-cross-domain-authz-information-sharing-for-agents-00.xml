@@ -11,27 +11,63 @@
     <title abbrev="AuthZ Sharing for Agents">Cross-Domain AuthZ Information sharing for Agents</title>
     <seriesInfo name="Internet-Draft" value="draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00"/>
     <author fullname="Jean Diaconu" surname="Diaconu">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
+        <postal>
+          <street>Av. des Uttins 5</street>
+          <city>ROLLE</city>
+          <code>1180</code>
+          <country>Switzerland</country>
+        </postal>
         <email>jdiaconu@cisco.com</email>
       </address>
     </author>
     <author fullname="Marcelo Yannuzzi" surname="Yannuzzi">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
+        <postal>
+          <street>Av. des Uttins 5</street>
+          <city>ROLLE</city>
+          <code>1180</code>
+          <country>Switzerland</country>
+        </postal>
         <email>mayannuz@cisco.com</email>
       </address>
     </author>
     <author fullname="Herve Muyal" surname="Muyal">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
+        <postal>
+          <street>Av. des Uttins 5</street>
+          <city>ROLLE</city>
+          <code>1180</code>
+          <country>Switzerland</country>
+        </postal>
         <email>hmuyal@cisco.com</email>
       </address>
     </author>
     <author fullname="Frank Brockners" surname="Brockners">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
+        <postal>
+          <street>Hansaallee 249, 3rd Floor</street>
+          <city>DUESSELDORF</city>
+          <code>40549</code>
+          <country>Germany</country>
+        </postal>
         <email>fbrockne@cisco.com</email>
+        <!-- uri and facsimile elements may also be added -->
       </address>
     </author>
     <author fullname="Nik Kale" surname="Kale">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
+        <postal>
+          <street>170 W Tasman Dr</street>
+          <city>SAN JOSE, CA</city>
+          <code>95134</code>
+          <country>USA</country>
+        </postal>
         <email>nikkal@cisco.com</email>
       </address>
     </author>
