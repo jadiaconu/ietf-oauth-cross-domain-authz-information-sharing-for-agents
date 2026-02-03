@@ -71,6 +71,38 @@
         <email>nikkal@cisco.com</email>
       </address>
     </author>
+    <author fullname="Ankit Agarwal" surname="Ankit">
+      <organization abbrev="Skyfire">Skyfire, Inc.</organization>
+      <address>
+        <postal>
+          <city>Kentfield, CA</city>
+          <country>USA</country>
+        </postal>
+        <email>ankit@skyfire.xyz</email>
+      </address>
+    </author>
+    <author fullname="Jeffrey Hickman" surname="Hickman">
+      <organization abbrev="Ory Corp">Ory Corp, Inc.</organization>
+      <address>
+        <postal>
+          <street>15169 N Scottsdale Rd Suite 205</street>
+          <city>Scottsdale, AZ</city>
+          <code>85254</code>
+          <country>USA</country>
+        </postal>
+        <email/>
+      </address>
+    </author>
+    <author fullname="Amritha Lal" surname="Lal">
+      <organization abbrev="AWS">Amazon Web Services</organization>
+      <address>
+        <postal>
+          <city>Seattle, WA</city>
+          <country>USA</country>
+        </postal>
+        <email/>
+      </address>
+    </author>
     <date year="2026"/>
     <area>Security</area>
     <workgroup>Internet Engineering Task Force</workgroup>
@@ -1277,17 +1309,5 @@ Effective_Scope(B) = A.delegatable_scope
         </reference>
       </references>
     </references>
-    <section anchor="contributors" numbered="false">
-      <name>Contributors</name>
-      <contact fullname="Ankit Agarwal" initials="A." surname="Agarwal">
-        <organization>Skyfire</organization>
-      </contact>
-      <contact fullname="Jeffrey Hickman" initials="J." surname="Hickman">
-        <organization>Ory</organization>
-      </contact>
-      <contact fullname="Amritha Lal" initials="A." surname="Lal">
-        <organization>AWS</organization>
-      </contact>
-    </section>
   </back>
 </rfc>
