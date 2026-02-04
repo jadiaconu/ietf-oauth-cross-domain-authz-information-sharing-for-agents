@@ -145,10 +145,9 @@ When submitting feedback, please:
 - Herve Muyal (<hmuyal@cisco.com>)
 - Frank Brockners (<fbrockne@cisco.com>)
 - Nik Kale (<nikkal@cisco.com>)
-
-## Contributors
-
 - Ankit Agarwal (<ankit@skyfire.xyz>)
+- Jeffrey Hickman (<jeff.hickman@ory.com>)
+- Amritha Lal (<amrithak@amazon.com>)
 
 ## Related Standards
 
