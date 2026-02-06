@@ -6,10 +6,10 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00" ipr="trust200902" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-diaconu-agents-authz-info-sharing" ipr="trust200902" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title abbrev="AuthZ Sharing for Agents">Cross-Domain AuthZ Information sharing for Agents</title>
-    <seriesInfo name="Internet-Draft" value="draft-ietf-oauth-cross-domain-authz-information-sharing-for-agents-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-diaconu-agents-authz-info-sharing"/>
     <author fullname="Jean Diaconu" surname="Diaconu">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
